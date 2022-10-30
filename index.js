@@ -20,10 +20,9 @@ app.post("/check",(req,res)=>{
 })
 connect();
 app.post("/signup", (req, res)=> {
-    console.log(req.body.name);
-    let str1={ email: req.body.email};
-    let email=req.body.email;
-    Credentials.findOne(str1, (user) => {
+    const email=req.body.email;
+    let str1={ email: email}; 
+    Credentials.findOne(str1, (err, user) => {
         if(user){
             res.send({message: "User already registered",err:null})
         } else {
@@ -41,18 +40,17 @@ app.post("/signup", (req, res)=> {
             })
             user.save(err => {
                 if(err) {
-                    res.send({message:"", err:err})
+                    res.send({message:"Not Successful", err:err})
                 } else {
                     res.send( { message: "Successfully Registered, Please login now.",err:null})
                 }
             })
         }
-    })  
+    })
 })
 app.get("/login", (req, res)=> {
     const {password} = req.body;
     const email=req.body.email;
-    console.log(email);
     let str1={ email: email};
     Credentials.findOne(str1, (err, user) => {
         if(user){
