@@ -8,12 +8,12 @@ const credentialsSchema = new Schema({
     },
 
     phoneno: {
-        type: String,
+        type: Number,
         required: true
     },
 
     aadhaarno: {
-        type: String,
+        type: Number,
         required: true
     },
 
@@ -38,13 +38,14 @@ const credentialsSchema = new Schema({
     },
 
     pincode: {
-        type: String,
+        type: Number,
         required: true
     },
 
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
 
     password: {

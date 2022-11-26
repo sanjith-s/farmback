@@ -3,9 +3,7 @@ const {hashPassword,verifyPassword}=require("../utilities/hashPassword")
 const signup = async (req,res) => {
     const hashedPassword=hashPassword(req.body.password);
     let user = new Users(req.body);
-    console.log(hashedPassword);
     user.password=hashedPassword;
-    console.log(user);
     try 
     {
         const post = await Users.find({email:req.body.email});
@@ -16,7 +14,7 @@ const signup = async (req,res) => {
         }
         else
         {
-            res.status(201).json({message: "User Exist already"}); 
+            res.status(409).json({message: "User Exist already"}); 
         }
     } 
     catch(err) 
@@ -30,7 +28,7 @@ const login = async(req,res) => {
     try {
         const post = await Users.find({email:email});
         if(post.length===0) {
-            return res.send({message: "No user exist exists"});
+            res.status(404).json({message: "No user exist exists"});
         }
         else
         {
@@ -40,7 +38,7 @@ const login = async(req,res) => {
             }
             else
             {
-                res.status(201).json({message: "Password doesn't exists"});  
+                res.status(406).json({message: "Password doesn't exists"});  
             }
         }
     } catch(err) {
