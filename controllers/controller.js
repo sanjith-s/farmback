@@ -1,7 +1,13 @@
 const Users = require("../models/credentials");
+const {hashPassword,verifyPassword}=require("../utilities/hashPassword")
 const signup = async (req,res) => {
-      const user = new Users(req.body);
-      try {
+    const hashedPassword=hashPassword(req.body.password);
+    let user = new Users(req.body);
+    console.log(hashedPassword);
+    user.password=hashedPassword;
+    console.log(user);
+    try 
+    {
         const post = await Users.find({email:req.body.email});
         if(post.length===0)
         {
@@ -12,9 +18,11 @@ const signup = async (req,res) => {
         {
             res.status(201).json({message: "User Exist already"}); 
         }
-      } catch(err) {
-          res.status(500).json({ message: err.message })
-      }
+    } 
+    catch(err) 
+    {
+        res.status(500).json({ message: err.message })
+    }
   }
 const login = async(req,res) => {
     let email = req.params.email;
@@ -26,7 +34,7 @@ const login = async(req,res) => {
         }
         else
         {
-            if(post[0].password===password)
+            if(verifyPassword(password,post[0].password))
             {
                 res.status(201).json({message: "Sucessful"});  
             }
