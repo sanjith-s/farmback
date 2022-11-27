@@ -1,5 +1,6 @@
 const Users = require("../models/credentials");
-const {hashPassword,verifyPassword}=require("../utilities/hashPassword")
+const {hashPassword,verifyPassword}=require("../utilities/hashPassword");
+const { CreateJWT} = require('../services/jwtAuth');
 const signup = async (req,res) => {
     const hashedPassword=hashPassword(req.body.password);
     let user = new Users(req.body);
@@ -25,6 +26,11 @@ const signup = async (req,res) => {
 const login = async(req,res) => {
     let email = req.params.email;
     let password=req.params.password;
+    const token = CreateJWT(email);
+    res.set({
+        'Content-Type': 'application/json',
+        'tokenstring': token,
+    });
     try {
         const post = await Users.find({email:email});
         if(post.length===0) {
@@ -45,8 +51,22 @@ const login = async(req,res) => {
         res.status(500).json({ message: err.message })
     }
 }
+const testJWT = async(req,res) =>{
+    res.status(201).json({message:"JWT Working"});
+}
+
+const logout = async (req,res) => {
+    let token = req.headers['tokenstring'];
+    if(!token){
+      return res.status(400).json({message: 'Missing Token'});
+    }
+    res.removeHeader('tokenstring');
+    return res.status(200).json({ message: 'Logout Successful' });
+}
 
 module.exports = {
     login,
-    signup
+    signup,
+    testJWT, 
+    logout
 }
