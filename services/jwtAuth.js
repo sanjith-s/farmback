@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const CreateJWT = (email) => {
    var token = jwt.sign({ email: email }, process.env.jwtSecretKey, {
-      expiresIn: 30,
+      expiresIn: 45,
       algorithm: process.env.signingAlgo
    });
 

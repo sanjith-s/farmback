@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { login,signup,testJWT,logout } = require("../controllers/controller");
+const {login,signup,testJWT,logout} = require("../controllers/controller");
 const {validateUserProfile}=require("../validations/userValidation");
 const {tokenAuth}= require('../middlewares/tokenAuth');
-router.get("/login/:email/:password", login);
+const {createToken,sessionCheck,sessionDelete}=require("../controllers/user");
+router.get("/login/:email/:password", createToken,login);
 router.post("/signup", validateUserProfile, signup);
-router.get("/testJWT",tokenAuth,testJWT);
-router.get("/logout",tokenAuth,logout);
+router.get("/testJWT",tokenAuth,sessionCheck,testJWT);
+router.get("/logout",tokenAuth,sessionDelete,logout);
 module.exports = router;

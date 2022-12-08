@@ -4,7 +4,7 @@ const app = express();
 const cors = require('cors');
 require('dotenv').config()
 let router;
-mongoose.connect('mongodb://localhost:27017/ctf_project', {
+mongoose.connect(process.env.localConnection, {
     useNewUrlParser:true,
     useUnifiedTopology: true
 })

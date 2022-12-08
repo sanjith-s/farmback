@@ -1,6 +1,5 @@
-const Users = require("../models/credentials");
+const Users=require("../models/credentials");
 const {hashPassword,verifyPassword}=require("../utilities/hashPassword");
-const { CreateJWT} = require('../services/jwtAuth');
 const signup = async (req,res) => {
     const hashedPassword=hashPassword(req.body.password);
     let user = new Users(req.body);
@@ -26,11 +25,6 @@ const signup = async (req,res) => {
 const login = async(req,res) => {
     let email = req.params.email;
     let password=req.params.password;
-    const token = CreateJWT(email);
-    res.set({
-        'Content-Type': 'application/json',
-        'tokenstring': token,
-    });
     try {
         const post = await Users.find({email:email});
         if(post.length===0) {
