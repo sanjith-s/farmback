@@ -29,17 +29,17 @@ const login = async(req,res) => {
     try {
         const post = await Users.find({email:email});
         if(post.length===0) {
-            res.status(404).json({message: "No user exist exists"});
+            res.status(404).json({message: "No user exists"});
         }
         else
         {
             if(verifyPassword(password,post[0].password))
             {
-                res.status(201).json({message: "Sucessful"});  
+                res.status(201).json({message: "Successful"});  
             }
             else
             {
-                res.status(406).json({message: "Password doesn't exists"});  
+                res.status(406).json({message: "Password doesn't exist"});  
             }
         }
     } catch(err) {
