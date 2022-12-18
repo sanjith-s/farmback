@@ -9,9 +9,11 @@ const validateUserProfile = (req,res,next)=>{
         addline2: joi.string().min(1).max(100).pattern(/^[a-zA-Z0-9-+ ,]+$/).required(),
         city: joi.string().min(1).max(100).pattern(/^[a-zA-Z ]+$/).required(),
         district: joi.string().min(1).max(100).pattern(/^[a-zA-Z ]+$/).required(),
+        state: joi.string().min(1).max(20).required(),
         pincode: joi.number().integer().min(100000).max(999999).required().positive(),
         email: joi.string().email(),
-        password: joi.string().min(5).max(20).required()
+        password: joi.string().min(5).max(20).required(),
+        typeOfAcc: joi.string().min(1).max(20).required(),
     });
     const {error} = users.validate(req.body);
     if(error)
