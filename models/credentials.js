@@ -37,6 +37,11 @@ const credentialsSchema = new Schema({
         required: true
     },
 
+    state: {
+        type: String,
+        required: true
+    },
+
     pincode: {
         type: Number,
         required: true
@@ -49,6 +54,11 @@ const credentialsSchema = new Schema({
     },
 
     password: {
+        type: String,
+        required: true
+    },
+
+    typeOfAcc: {
         type: String,
         required: true
     }
