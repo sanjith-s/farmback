@@ -23,7 +23,7 @@ const signup = async (req,res) => {
         res.status(500).json({ message: err.message })
     }
   }
-const login = async(req,res) => {
+const login = async(req,res,next) => {
     let email = req.body.email;
     let password=req.body.password;
     try {
@@ -35,7 +35,7 @@ const login = async(req,res) => {
         {
             if(verifyPassword(password,post[0].password))
             {
-                res.status(201).json({message: "Successful"});  
+                next();
             }
             else
             {

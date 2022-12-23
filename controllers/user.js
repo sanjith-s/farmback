@@ -32,7 +32,7 @@ const createToken = async(req,res,next)=>{
     try{
         let session = new Session({email:email,tokenID:token});
         await session.save();
-        next();
+        res.status(201).json({message: "Successful",token:token});
     }
     catch(err){
         res.status(400).json({message: "Error in login"});
@@ -57,8 +57,28 @@ const sessionDelete = async (req,res,next) =>{
         res.status(404).json({message: "Error in connection"});
     }
 }
+const logoutAll = async (req,res,next) =>{
+    let email=req.body.email;
+    try
+    {
+        const post = await Session.deleteOne({email:email});
+        if(post.deletedCount===1)
+        {
+            res.status(201).json({message: "Successful"});
+        }
+        else
+        {
+            res.status(404).json({message: "Logout Fail, Please Logout Again"});
+        }
+    }
+    catch(err)
+    {
+        res.status(404).json({message: "Error in connection"});
+    }
+}
 module.exports={
     createToken,
     sessionCheck,
-    sessionDelete
+    sessionDelete,
+    logoutAll
 }
