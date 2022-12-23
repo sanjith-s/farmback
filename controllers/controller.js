@@ -24,8 +24,8 @@ const signup = async (req,res) => {
     }
   }
 const login = async(req,res) => {
-    let email = req.params.email;
-    let password=req.params.password;
+    let email = req.body.email;
+    let password=req.body.password;
     try {
         const post = await Users.find({email:email});
         if(post.length===0) {

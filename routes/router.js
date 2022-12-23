@@ -6,7 +6,7 @@ const {tokenAuth}= require('../middlewares/tokenAuth');
 const {createToken,sessionCheck,sessionDelete}=require("../controllers/user");
 const {getMarkets,getProducts} = require("../controllers/buyerController");
 const {ml_model} = require("../ml_model/crop_recommendation/test");
-router.get("/login/:email/:password", createToken,login);
+router.post("/login", createToken,login);
 router.post("/signup", validateUserProfile, signup);
 router.get("/testJWT",tokenAuth,sessionCheck,testJWT);
 router.get("/logout",tokenAuth,sessionDelete,logout);

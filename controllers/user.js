@@ -23,7 +23,7 @@ const sessionCheck = async (req,res,next) =>{
     }
 };
 const createToken = async(req,res,next)=>{
-    let email = req.params.email;
+    let email = req.body.email;
     const token = CreateJWT(email);
     res.set({
         'Content-Type': 'application/json',
@@ -43,7 +43,6 @@ const sessionDelete = async (req,res,next) =>{
     try
     {
         const post = await Session.deleteOne({tokenID:token});
-        console.log(post);
         if(post.deletedCount===1)
         {
             next();
