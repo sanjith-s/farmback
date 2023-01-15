@@ -5,6 +5,7 @@ const sessionCheck = async (req,res,next) =>{
     let token = req.headers['tokenstring'];
     let result = VerifyJWT(token);
     let email = result.email;
+    res.locals.details=email;
     try
     {
         const post = await Session.find({email:email,tokenID:token});

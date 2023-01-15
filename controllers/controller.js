@@ -40,7 +40,7 @@ const login = async(req,res,next) => {
             }
             else
             {
-                res.status(406).json({message: "Password doesn't exist"});  
+                res.status(406).json({message: "Password doesn't match"});  
             }
         }
     } catch(err) {
@@ -60,9 +60,21 @@ const logout = async (req,res) => {
     return res.status(200).json({ message: 'Logout Successful' });
 }
 
+const profile = async (req,res) => {
+    let email = res.locals.details;
+    try{
+        const profile = await Users.find({email:email});
+        res.status(200).json({message: profile[0]});
+    }
+    catch{
+        res.status(500).json({ message: err.message })
+    }
+}
+
 module.exports = {
     login,
     signup,
     testJWT, 
-    logout
+    logout,
+    profile
 }
