@@ -12,10 +12,6 @@ router.get("/testJWT",tokenAuth,sessionCheck,testJWT);
 router.get("/logout",tokenAuth,sessionDelete,logout);
 router.get("/buyer/market",tokenAuth,sessionCheck,getMarkets);
 router.get("/buyer/products/:marketID", tokenAuth,sessionCheck,getProducts);
-router.get("/seller/requestlist", tokenAuth,sessionCheck);
-router.get("/seller/viewsale/:requestID", tokenAuth,sessionCheck);
-router.get("/seller/saleslist", tokenAuth,sessionCheck);
-router.get("/seller/viewlist/:salesID", tokenAuth,sessionCheck);
 router.post("/ml_model/crop_recomendation",ml_model);
 router.post("/logoutAll",logoutAll)
 module.exports = router;

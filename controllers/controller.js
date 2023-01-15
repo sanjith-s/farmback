@@ -35,6 +35,7 @@ const login = async(req,res,next) => {
         {
             if(verifyPassword(password,post[0].password))
             {
+                res.locals.details=post;
                 next();
             }
             else

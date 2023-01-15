@@ -32,7 +32,7 @@ const createToken = async(req,res,next)=>{
     try{
         let session = new Session({email:email,tokenID:token});
         await session.save();
-        res.status(201).json({message: "Successful",token:token});
+        res.status(201).json({message: "Successful",token:token, details: res.locals.details});
     }
     catch(err){
         res.status(400).json({message: "Error in login"});
