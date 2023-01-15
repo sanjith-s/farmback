@@ -19,10 +19,13 @@ const farmerQuery = new Schema({
         required:true
     },
     response:{
-        type:String
+        type:String,
     },
     responser:{
         type:Array,
+    },
+    parentID:{
+        type:String,
     }
 }, {timestamps:true});
 
