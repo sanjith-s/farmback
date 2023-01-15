@@ -43,8 +43,23 @@ const deleteQuery = async (req,res)=>{
     }
 }
 
+const updateQuery = async(req,res)=>{
+    try{
+        let doc = await FarmerQuery.findOneAndUpdate({_id:req.body.id}, {
+            subject:req.body.subject,
+            description:req.body.description}, {
+            new: true
+          });
+          res.status(201).json({message: "Edited Successfully"});
+    }
+    catch{
+        res.status(404).json({message: "Error in connection"});
+    }
+}
+
 module.exports={
     postQuery,
     getQuery,
-    deleteQuery
+    deleteQuery,
+    updateQuery
 }
