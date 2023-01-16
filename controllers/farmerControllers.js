@@ -86,7 +86,7 @@ const postMeet = async (req,res) => {
         const profile = await Users.find({email:email});
         const query=new FarmerMeet({
             date:req.body.date,
-            time:req.body.date,
+            time:req.body.time,
             farmerid:profile[0]._id,
             details:req.body.details,
             crops:req.body.crops,

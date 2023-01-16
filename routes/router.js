@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {login,signup,testJWT,logout,profile} = require("../controllers/controller");
 const {validateUserProfile}=require("../validations/userValidation");
+const {validateFarmerQuery}=require("../validations/farmerValidation");
 const {tokenAuth}= require('../middlewares/tokenAuth');
 const {createToken,sessionCheck,sessionDelete,logoutAll}=require("../controllers/user");
 const {getMarkets,getProducts} = require("../controllers/buyerController");
@@ -17,10 +18,10 @@ router.post("/ml_model/crop_recomendation",ml_model);
 router.post("/logoutAll",logoutAll);
 router.get("/profile",tokenAuth,sessionCheck,profile);
 //N Pages
-router.post("/postquery",tokenAuth,sessionCheck,postQuery);
+router.post("/postquery",tokenAuth,sessionCheck,validateFarmerQuery,postQuery);
 router.get("/getquery",tokenAuth,sessionCheck,getQuery);
 router.delete("/deletequery",tokenAuth,sessionCheck,deleteQuery);
-router.put("/editquery",tokenAuth,sessionCheck,updateQuery);
-router.put("/againpostquery",tokenAuth,sessionCheck,againPostQuery);
+router.put("/editquery",tokenAuth,sessionCheck,validateFarmerQuery,updateQuery);
+router.put("/againpostquery",tokenAuth,sessionCheck,validateFarmerQuery,againPostQuery);
 router.post("/postmeet",tokenAuth,sessionCheck,postMeet)
 module.exports = router;
