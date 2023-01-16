@@ -1,5 +1,6 @@
 const FarmerQuery=require("../models/farmerQuery");
 const Users=require("../models/credentials");
+const FarmerMeet=require("../models/farmerMeet");
 
 const postQuery = async (req,res) => {
     try{
@@ -79,12 +80,34 @@ const againPostQuery = async (req,res) => {
     }
 }
 
-const 
+const postMeet = async (req,res) => {
+    try{
+        let email=res.locals.details;
+        const profile = await Users.find({email:email});
+        const query=new FarmerMeet({
+            date:req.body.date,
+            time:req.body.date,
+            farmerid:profile[0]._id,
+            details:req.body.details,
+            crops:req.body.crops,
+            reason:req.body.reason,
+            ngotype:req.body.ngotype,
+            status:"Waiting for NGO"
+        })
+        await query.save();
+        res.status(201).json({message: "Meet Added, Waiting for NGO"});
+    }
+    catch
+    {
+        res.status(404).json({message: "Error in connection"});
+    }
+}
 
 module.exports={
     postQuery,
     getQuery,
     deleteQuery,
     updateQuery,
-    againPostQuery
+    againPostQuery,
+    postMeet
 }
