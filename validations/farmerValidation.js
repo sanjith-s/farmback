@@ -5,6 +5,7 @@ const validateFarmerQuery = (req,res,next)=>{
         subject:joi.string().required().min(1).max(50),
         description:joi.string().required().min(1).max(1000),
         email:joi.string().email(),
+        id:joi.string()
     });
     const {error} = query.validate(req.body);
     if(error)

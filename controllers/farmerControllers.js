@@ -12,14 +12,14 @@ const postQuery = async (req,res) => {
             farmerid:profile[0]._id,
             status:'Pending',
             response:'',
-            responser:[],
+            responser:'',
             oldQuery:[],
         })
         await query.save();
         res.status(201).json({message: "Query Added Successfully"});
     }
     catch{
-        res.status(404).json({message: "Error in connection"});
+        res.status(400).json({message: "Error in connection"});
     }
 }
 
@@ -35,9 +35,19 @@ const getQuery = async (req,res) =>{
     }
 }
 
+const getSpecificQuery = async (req,res) => {
+    try{
+        const data=await FarmerQuery.findById(req.params.id);
+        res.status(201).json({message: data});
+    }
+    catch{
+        res.status(404).json({message: "Error in connection"});
+    }
+}
+
 const deleteQuery = async (req,res)=>{
     try{
-        await FarmerQuery.findByIdAndDelete(req.body.id);
+        await FarmerQuery.findByIdAndDelete(req.params.id);
         res.status(201).json({message: "Deleted Successfully"});
     }
     catch{
@@ -69,7 +79,7 @@ const againPostQuery = async (req,res) => {
             response:"",
             status:"Pending",
             oldQuery:addOld,
-            responser:[]
+            responser:""
         }, {
             new: true
           });
@@ -109,5 +119,6 @@ module.exports={
     deleteQuery,
     updateQuery,
     againPostQuery,
-    postMeet
+    postMeet,
+    getSpecificQuery
 }

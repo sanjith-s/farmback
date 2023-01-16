@@ -2,6 +2,7 @@ const { VerifyJWT } = require('../services/jwtAuth');
 
 const tokenAuth = async (req, res, next) => {
    let token = req.headers['tokenstring'];
+   // console.log(req.params.id)
    if (!token) {
       return res.status(400).json({
          message: 'Token not found',

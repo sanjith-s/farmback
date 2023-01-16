@@ -7,7 +7,7 @@ const {tokenAuth}= require('../middlewares/tokenAuth');
 const {createToken,sessionCheck,sessionDelete,logoutAll}=require("../controllers/user");
 const {getMarkets,getProducts} = require("../controllers/buyerController");
 const {ml_model} = require("../ml_model/crop_recommendation/test");
-const {postQuery,getQuery,deleteQuery,updateQuery,againPostQuery,postMeet}=require("../controllers/farmerControllers");
+const {postQuery,getQuery,deleteQuery,updateQuery,againPostQuery,postMeet,getSpecificQuery}=require("../controllers/farmerControllers");
 router.post("/login", login,createToken);
 router.post("/signup", validateUserProfile, signup);
 router.get("/testJWT",tokenAuth,sessionCheck,testJWT);
@@ -19,8 +19,9 @@ router.post("/logoutAll",logoutAll);
 router.get("/profile",tokenAuth,sessionCheck,profile);
 //N Pages
 router.post("/postquery",tokenAuth,sessionCheck,validateFarmerQuery,postQuery);
+router.get("/getquery/:id",tokenAuth,sessionCheck,getSpecificQuery);
 router.get("/getquery",tokenAuth,sessionCheck,getQuery);
-router.delete("/deletequery",tokenAuth,sessionCheck,deleteQuery);
+router.delete("/deletequery/:id",tokenAuth,sessionCheck,deleteQuery);
 router.put("/editquery",tokenAuth,sessionCheck,validateFarmerQuery,updateQuery);
 router.put("/againpostquery",tokenAuth,sessionCheck,validateFarmerQuery,againPostQuery);
 router.post("/postmeet",tokenAuth,sessionCheck,postMeet)

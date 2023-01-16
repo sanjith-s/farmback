@@ -22,7 +22,7 @@ const farmerQuery = new Schema({
         type:String,
     },
     responser:{
-        type:Array,
+        type:String,
     },
     oldQuery:{
         type:Array,
