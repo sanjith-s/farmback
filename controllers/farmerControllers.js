@@ -11,7 +11,8 @@ const postQuery = async (req,res) => {
             farmerid:profile[0]._id,
             status:'Pending',
             response:'',
-            responser:[]
+            responser:[],
+            oldQuery:[],
         })
         await query.save();
         res.status(201).json({message: "Query Added Successfully"});
@@ -57,9 +58,33 @@ const updateQuery = async(req,res)=>{
     }
 }
 
+const againPostQuery = async (req,res) => {
+    try{
+        const data=await FarmerQuery.findById(req.body.id);
+        let addOld=[...data.oldQuery,{subject:data.subject,description:data.description,timedate:data.updatedAt}];
+        let doc = await FarmerQuery.findOneAndUpdate({_id:req.body.id}, {
+            subject:req.body.subject,
+            description:req.body.description,
+            response:"",
+            status:"Pending",
+            oldQuery:addOld,
+            responser:[]
+        }, {
+            new: true
+          });
+          res.status(201).json({message: "Query Attached Successfully"});
+    }
+    catch{
+        res.status(404).json({message: "Error in connection"});
+    }
+}
+
+const 
+
 module.exports={
     postQuery,
     getQuery,
     deleteQuery,
-    updateQuery
+    updateQuery,
+    againPostQuery
 }

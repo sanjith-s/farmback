@@ -24,8 +24,8 @@ const farmerQuery = new Schema({
     responser:{
         type:Array,
     },
-    parentID:{
-        type:String,
+    oldQuery:{
+        type:Array,
     }
 }, {timestamps:true});
 
