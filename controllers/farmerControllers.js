@@ -105,10 +105,22 @@ const postMeet = async (req,res) => {
             status:"Waiting for NGO"
         })
         await query.save();
-        res.status(201).json({message: "Meet Added, Waiting for NGO"});
+        res.status(201).json({message: "Meet Added, Waiting for NGO Reply"});
     }
     catch
     {
+        res.status(404).json({message: "Error in connection"});
+    }
+}
+
+const getMeet = async (req,res) => {
+    try{
+        const email=res.locals.details;
+        const profile = await Users.find({email:email});
+        const data=await FarmerMeet.find({farmerid:profile[0]._id});
+        res.status(201).json({message: data});
+    }
+    catch{
         res.status(404).json({message: "Error in connection"});
     }
 }
@@ -120,5 +132,6 @@ module.exports={
     updateQuery,
     againPostQuery,
     postMeet,
-    getSpecificQuery
+    getSpecificQuery,
+    getMeet
 }
