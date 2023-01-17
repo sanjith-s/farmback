@@ -2,7 +2,6 @@ const Users=require("../models/credentials");
 const {hashPassword,verifyPassword}=require("../utilities/hashPassword");
 const signup = async (req,res) => {
     const hashedPassword=hashPassword(req.body.password);
-    console.log(req.body.email);
     let user = new Users(req.body);
     user.password=hashedPassword;
     try 
