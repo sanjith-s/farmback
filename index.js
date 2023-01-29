@@ -2,9 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const cors = require('cors');
+const morgan = require('morgan');
 require('dotenv').config()
 let router;
-mongoose.connect(process.env.globalConnection, {
+mongoose.connect(process.env.localConnection, {
     useNewUrlParser:true,
     useUnifiedTopology: true
 })
@@ -19,6 +20,7 @@ mongoose.connect(process.env.globalConnection, {
 });
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+app.use(morgan('dev'));
 app.use(cors());
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,() => {

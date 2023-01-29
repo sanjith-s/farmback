@@ -72,7 +72,7 @@ const updateQuery = async(req,res)=>{
 const againPostQuery = async (req,res) => {
     try{
         const data=await FarmerQuery.findById(req.body.id);
-        let addOld=[...data.oldQuery,{subject:data.subject,description:data.description,timedate:data.updatedAt}];
+        let addOld=[...data.oldQuery,{subject:data.subject,description:data.description,timedate:data.updatedAt,answer:data.response}];
         let doc = await FarmerQuery.findOneAndUpdate({_id:req.body.id}, {
             subject:req.body.subject,
             description:req.body.description,
