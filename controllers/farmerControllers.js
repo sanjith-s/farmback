@@ -102,7 +102,9 @@ const postMeet = async (req,res) => {
             crops:req.body.crops,
             reason:req.body.reason,
             ngotype:req.body.ngotype,
-            status:"Waiting for NGO"
+            status:"Waiting for NGO",
+            location: req.body.location,
+            ngoname: ""
         })
         await query.save();
         res.status(201).json({message: "Meet Added, Waiting for NGO Reply"});

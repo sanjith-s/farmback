@@ -28,6 +28,12 @@ const farmerMeet = new Schema({
     },
     status:{
         type:String,
+    },
+    location:{
+        type:String,
+    },
+    ngoname:{
+        type:String,
     }
 }, {timestamps:true});
 

@@ -1,4 +1,5 @@
 const FarmerQuery=require('../models/farmerQuery');
+const FarmerMeet=require('../models/farmerMeet');
 const Users=require("../models/credentials");
 
 const getQueries = async (req,res) => {
@@ -30,7 +31,19 @@ const responseQuery = async (req,res) => {
     }
 }
 
+const getMeets = async (req,res) => {
+    try{
+        const data=await FarmerMeet.find({status:"Waiting for NGO"});
+        return res.status(201).json({message:data});
+    }
+    catch
+    {
+        return res.status(400).json({message: "Error in connection"})
+    }
+}
+
 module.exports={
     getQueries,
-    responseQuery
+    responseQuery,
+    getMeets
 }
