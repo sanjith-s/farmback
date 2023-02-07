@@ -125,6 +125,21 @@ const getMeet = async (req,res) => {
     }
 }
 
+const acceptQuery = async () => {
+    try{
+        let doc = await FarmerQuery.findOneAndUpdate({_id:req.params.id}, {
+            status:"Completed"
+        }, {
+            new: true
+          });
+          res.status(201).json({message: "Query You Accepted Successfully"});
+    }
+    catch
+    {
+        res.status(404).json({message: "Error in connection"});
+    }
+}
+
 module.exports={
     postQuery,
     getQuery,
