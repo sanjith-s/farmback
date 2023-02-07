@@ -15,10 +15,10 @@ const getQueries = async (req,res) => {
 const responseQuery = async (req,res) => {
     try{
         const profile=await Users.findOne({email:req.body.email});
-        console.log(profile);
         let doc = await FarmerQuery.findOneAndUpdate({_id:req.body.id}, {
             response:req.body.response,
-            responser:profile.name
+            responser:profile.name,
+            status:"Pending status from farmer",
             }, {
             new: true
           });

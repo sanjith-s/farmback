@@ -125,7 +125,7 @@ const getMeet = async (req,res) => {
     }
 }
 
-const acceptQuery = async () => {
+const acceptQuery = async (req,res) => {
     try{
         let doc = await FarmerQuery.findOneAndUpdate({_id:req.params.id}, {
             status:"Completed"
@@ -148,5 +148,6 @@ module.exports={
     againPostQuery,
     postMeet,
     getSpecificQuery,
-    getMeet
+    getMeet,
+    acceptQuery
 }

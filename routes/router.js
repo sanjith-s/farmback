@@ -8,7 +8,7 @@ const {createToken,sessionCheck,sessionDelete,logoutAll}=require("../controllers
 const {getMarkets,getProducts} = require("../controllers/buyerController");
 const {ml_model} = require("../ml_model/crop_recommendation/test");
 const {postQuery,getQuery,deleteQuery,updateQuery,againPostQuery,
-postMeet,getSpecificQuery,getMeet}=require("../controllers/farmerControllers");
+postMeet,getSpecificQuery,getMeet,acceptQuery}=require("../controllers/farmerControllers");
 const {getQueries,responseQuery} =require("../controllers/ngoControllers");
 const { token } = require("morgan");
 router.post("/login", login,createToken);
@@ -27,7 +27,7 @@ router.get("/getquery",tokenAuth,sessionCheck,getQuery);
 router.delete("/deletequery/:id",tokenAuth,sessionCheck,deleteQuery);
 router.put("/editquery",tokenAuth,sessionCheck,validateFarmerQuery,updateQuery);
 router.put("/againpostquery",tokenAuth,sessionCheck,validateFarmerQuery,againPostQuery);
-router.put("/acceptquery/:id",tokenAuth,sessionCheck);
+router.put("/acceptquery/:id",tokenAuth,sessionCheck,acceptQuery);
 router.get("/getqueries",tokenAuth,sessionCheck,getQueries);
 router.put("/respondquery",tokenAuth,sessionCheck,responseQuery);
 router.post("/postmeet",tokenAuth,sessionCheck,validateFarmerMeet,postMeet);
