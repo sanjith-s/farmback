@@ -8,9 +8,11 @@ const {createToken,sessionCheck,sessionDelete,logoutAll}=require("../controllers
 const {getMarkets,getProducts} = require("../controllers/buyerController");
 const {ml_model} = require("../ml_model/crop_recommendation/test");
 const {postQuery,getQuery,deleteQuery,updateQuery,againPostQuery,
-postMeet,getSpecificQuery,getMeet,acceptQuery}=require("../controllers/farmerControllers");
-const {getQueries,responseQuery,getMeets} =require("../controllers/ngoControllers");
+postMeet,getSpecificQuery,getMeet,acceptQuery,acceptNewScheduleMeet,
+notAcceptNewScheduleMeet}=require("../controllers/farmerControllers");
+const {getQueries,responseQuery,getMeets,acceptMeetByNGO, changeOfTime} =require("../controllers/ngoControllers");
 const { token } = require("morgan");
+
 router.post("/login", login,createToken);
 router.post("/signup", validateUserProfile, signup);
 router.get("/testJWT",tokenAuth,sessionCheck,testJWT);
@@ -20,6 +22,7 @@ router.get("/buyer/products/:marketID", tokenAuth,sessionCheck,getProducts);
 router.post("/ml_model/crop_recomendation",ml_model);
 router.post("/logoutAll",logoutAll);
 router.get("/profile",tokenAuth,sessionCheck,profile);
+
 //N Pages
 
 //Queries
@@ -32,9 +35,14 @@ router.put("/againpostquery",tokenAuth,sessionCheck,validateFarmerQuery,againPos
 router.put("/acceptquery/:id",tokenAuth,sessionCheck,acceptQuery);
 router.get("/getqueries",tokenAuth,sessionCheck,getQueries);
 router.put("/respondquery",tokenAuth,sessionCheck,responseQuery);
+
 //Meet
 router.post("/postmeet",tokenAuth,sessionCheck,validateFarmerMeet,postMeet);
 router.get("/getmeet",tokenAuth,sessionCheck,getMeet);
 router.get("/getmeets",tokenAuth,sessionCheck,getMeets);
+router.patch("/acceptmeetbyngo/:id",tokenAuth,sessionCheck,acceptMeetByNGO);
+router.put("/changeofschedule/:id",tokenAuth,sessionCheck,changeOfTime);
+router.patch("/acceptmeetbyfarmer/:id",tokenAuth,sessionCheck,acceptNewScheduleMeet);
+router.patch("/notacceptmeetbyfarmer/:id",tokenAuth,sessionCheck,notAcceptNewScheduleMeet);
 
 module.exports = router;

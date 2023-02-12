@@ -34,6 +34,12 @@ const farmerMeet = new Schema({
     },
     ngoname:{
         type:String,
+    },
+    requesttime:{
+        type:String,
+    },
+    requestdate:{
+        type:String,
     }
 }, {timestamps:true});
 

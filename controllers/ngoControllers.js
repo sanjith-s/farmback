@@ -42,8 +42,46 @@ const getMeets = async (req,res) => {
     }
 }
 
+const acceptMeetByNGO = async (req,res) => {
+    try{
+        const profile=await Users.findOne({email:req.body.email});
+        let doc = await FarmerMeet.findByIdAndUpdate(req.params.id, {
+            status:"Meet Accepted",
+            ngoname:profile._id
+            }, {
+            new: true
+          });
+        res.status(201).json({message:"You Accepted the Meet"});
+    }
+    catch
+    {
+        return res.status(400).json({message:"Error in connection"});
+    }
+}
+
+const changeOfTime = async (req,res) => {
+    try{
+        const profile=await Users.findOne({email:req.body.email});
+        let doc = await FarmerMeet.findByIdAndUpdate(req.params.id, {
+            status:"Request to Change Time and Date",
+            ngoname:profile._id,
+            requesttime:req.body.time,
+            requestdate:req.body.date
+            }, {
+            new: true
+          });
+        res.status(201).json({message:"Requested for Change the schedule for the Meet"});
+    }
+    catch
+    {
+        return res.status(400).json({message:"Error in connection"});
+    }
+}
+
 module.exports={
     getQueries,
     responseQuery,
-    getMeets
+    getMeets,
+    acceptMeetByNGO,
+    changeOfTime
 }

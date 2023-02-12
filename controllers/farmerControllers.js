@@ -142,6 +142,41 @@ const acceptQuery = async (req,res) => {
     }
 }
 
+const acceptNewScheduleMeet = async (req,res) => {
+    try{
+        let meetDetails=await FarmerMeet.findById(req.params.id);
+        let doc = await FarmerMeet.findByIdAndUpdate(req.params.id, {
+            status:"Meet Accepted",
+            time:meetDetails.requesttime,
+            date:meetDetails.requestdate
+            }, {
+            new: true
+          });
+        res.status(201).json({message:"You Accepted the Meet"});
+    }
+    catch
+    {
+        return res.status(400).json({message:"Error in connection"});
+    }
+}
+
+const notAcceptNewScheduleMeet = async (req,res) => {
+    try{
+        let doc = await FarmerMeet.findByIdAndUpdate(req.params.id, {
+            status:"Waiting for NGO",
+            requesttime:"",
+            requestdate:""
+            }, {
+            new: true
+          });
+        res.status(201).json({message:"Not Accepted New Schedule Meet"});
+    }
+    catch
+    {
+        return res.status(400).json({message:"Error in connection"});
+    }
+}
+
 module.exports={
     postQuery,
     getQuery,
@@ -151,5 +186,7 @@ module.exports={
     postMeet,
     getSpecificQuery,
     getMeet,
-    acceptQuery
+    acceptQuery,
+    acceptNewScheduleMeet,
+    notAcceptNewScheduleMeet
 }
