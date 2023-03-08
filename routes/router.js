@@ -12,6 +12,7 @@ postMeet,getSpecificQuery,getMeet,acceptQuery,acceptNewScheduleMeet,
 notAcceptNewScheduleMeet}=require("../controllers/farmerControllers");
 const {getQueries,responseQuery,getMeets,acceptMeetByNGO, changeOfTime} =require("../controllers/ngoControllers");
 const { token } = require("morgan");
+const { getSales } = require('../controllers/sellerControllers');
 
 router.post("/login", login,createToken);
 router.post("/signup", validateUserProfile, signup);
@@ -45,4 +46,7 @@ router.put("/changeofschedule/:id",tokenAuth,sessionCheck,changeOfTime);
 router.patch("/acceptmeetbyfarmer/:id",tokenAuth,sessionCheck,acceptNewScheduleMeet);
 router.patch("/notacceptmeetbyfarmer/:id",tokenAuth,sessionCheck,notAcceptNewScheduleMeet);
 
+// M Pages
+router.get("/getsales", tokenAuth, sessionCheck, getSales);
+ 
 module.exports = router;
