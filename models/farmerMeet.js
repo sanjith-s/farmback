@@ -40,6 +40,9 @@ const farmerMeet = new Schema({
     },
     requestdate:{
         type:String,
+    },
+    farmername:{
+        type:String, 
     }
 }, {timestamps:true});
 

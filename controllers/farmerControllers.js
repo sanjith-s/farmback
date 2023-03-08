@@ -93,18 +93,19 @@ const againPostQuery = async (req,res) => {
 const postMeet = async (req,res) => {
     try{
         let email=res.locals.details;
-        const profile = await Users.find({email:email});
+        const profile = await Users.findOne({email:email});
         const query=new FarmerMeet({
             date:req.body.date,
             time:req.body.time,
-            farmerid:profile[0]._id,
+            farmerid:profile._id,
             details:req.body.details,
             crops:req.body.crops,
             reason:req.body.reason,
             ngotype:req.body.ngotype,
             status:"Waiting for NGO",
             location: req.body.location,
-            ngoname: ""
+            ngoname: "",
+            farmername: profile.name
         })
         await query.save();
         res.status(201).json({message: "Meet Added, Waiting for NGO Reply"});
