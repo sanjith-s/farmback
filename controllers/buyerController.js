@@ -1,3 +1,4 @@
+const Deal = require("../models/deals");
 const Market=require("../models/market");
 const Product=require("../models/products");
 const getMarkets = async (req,res) =>{
@@ -28,7 +29,17 @@ const buyProducts = async(req,res) =>{
     }
 }
 
+const getDeals = async(req, res)=> {
+    try{
+        const deals = await Deal.find({});
+        res.status(201).json({message: deals});
+    }catch{
+        res.status(500).json({ message: err.message })
+    }
+}
+
 module.exports = {
     getMarkets,
-    getProducts
+    getProducts,
+    getDeals
 }
