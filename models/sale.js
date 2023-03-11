@@ -42,5 +42,5 @@ const sale= new Schema ({
         required: false
     }
 }, {timestamps:true});
-const Sale = mongoose.model('sales', sales);
+const Sale = mongoose.model('sales', sale);
 module.exports=Sale;

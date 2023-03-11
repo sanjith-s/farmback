@@ -5,7 +5,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 require('dotenv').config()
 let router;
-mongoose.connect(process.env.globalConnection, {
+mongoose.connect(process.env.localConnection, {
     useNewUrlParser:true,
     useUnifiedTopology: true
 })

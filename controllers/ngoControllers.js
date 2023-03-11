@@ -47,7 +47,7 @@ const acceptMeetByNGO = async (req,res) => {
         const profile=await Users.findOne({email:req.body.email});
         let doc = await FarmerMeet.findByIdAndUpdate(req.params.id, {
             status:"Meet Accepted",
-            ngoname:profile._id
+            ngoname:profile.name
             }, {
             new: true
           });
@@ -64,7 +64,7 @@ const changeOfTime = async (req,res) => {
         const profile=await Users.findOne({email:req.body.email});
         let doc = await FarmerMeet.findByIdAndUpdate(req.params.id, {
             status:"Request to Change Time and Date",
-            ngoname:profile._id,
+            ngoname:profile.name,
             requesttime:req.body.time,
             requestdate:req.body.date
             }, {
