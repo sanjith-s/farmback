@@ -104,6 +104,7 @@ const postMeet = async (req,res) => {
             ngotype:req.body.ngotype,
             status:"Waiting for NGO",
             location: req.body.location,
+            image: req.body.image,
             ngoname: "",
             farmername: profile.name
         })

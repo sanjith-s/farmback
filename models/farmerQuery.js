@@ -26,6 +26,10 @@ const farmerQuery = new Schema({
     },
     oldQuery:{
         type:Array,
+    },
+    image:{
+        data: Buffer,
+        contentType: String
     }
 }, {timestamps:true});
 
