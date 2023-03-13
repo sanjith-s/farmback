@@ -5,7 +5,7 @@ const {validateUserProfile}=require("../validations/userValidation");
 const {validateFarmerQuery,validateFarmerMeet}=require("../validations/farmerValidation");
 const {tokenAuth}= require('../middlewares/tokenAuth');
 const {createToken,sessionCheck,sessionDelete,logoutAll}=require("../controllers/user");
-const {getMarkets,getProducts, getDeals} = require("../controllers/buyerController");
+const {getMarkets,getProducts, getDeals, getTransactions, postRequest} = require("../controllers/buyerController");
 const {ml_model} = require("../ml_model/crop_recommendation/test");
 const {postQuery,getQuery,deleteQuery,updateQuery,againPostQuery,
 postMeet,getSpecificQuery,getMeet,acceptQuery,acceptNewScheduleMeet,
@@ -49,5 +49,7 @@ router.patch("/notacceptmeetbyfarmer/:id",tokenAuth,sessionCheck,notAcceptNewSch
 // M Pages
 router.get("/getsales", tokenAuth, sessionCheck, getSales);
 router.get("/getdeals", tokenAuth, sessionCheck, getDeals);
-// M15 over for now 
+router.get("/gettransactions", tokenAuth, sessionCheck, getTransactions);
+router.post("/postrequest", tokenAuth, sessionCheck, postRequest);
+// OVER - M15, M17, M18
 module.exports = router;
