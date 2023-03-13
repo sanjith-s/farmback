@@ -1,6 +1,21 @@
+const bodyParser = require("body-parser");
+const path = require('path');
+const fs = require("fs");
+const multer = require("multer");
 const FarmerQuery=require("../models/farmerQuery");
 const Users=require("../models/credentials");
 const FarmerMeet=require("../models/farmerMeet");
+
+// var storage = multer.diskStorage({
+//     destination: function(req,file,cb) {
+//         cb(null, 'uploads')
+//     },
+//     filename: function(req, file, cb) {
+//         cb(null, file.fieldname + '-' + Date.now())
+//     }
+// })
+
+// var upload = multer({ storage: storage })
 
 const postQuery = async (req,res) => {
     try{
@@ -94,6 +109,14 @@ const postMeet = async (req,res) => {
     try{
         let email=res.locals.details;
         const profile = await Users.findOne({email:email});
+
+        // var img = fs.readFileSync(req.file.path);
+        // var encode_img = img.toString('base64');
+        // var final_img = {
+        //     contentType: req.file.mimetype,
+        //     image: new Buffer(encode_img, 'base64')
+        // };
+
         const query=new FarmerMeet({
             date:req.body.date,
             time:req.body.time,
@@ -104,9 +127,12 @@ const postMeet = async (req,res) => {
             ngotype:req.body.ngotype,
             status:"Waiting for NGO",
             location: req.body.location,
-            image: req.body.image,
             ngoname: "",
-            farmername: profile.name
+            farmername: profile.name,
+            image: {
+                data: fs.readFileSync('uploads/'+req.file.filename),
+                contentType: "image/jpg"
+            }
         })
         await query.save();
         res.status(201).json({message: "Meet Added, Waiting for NGO Reply"});

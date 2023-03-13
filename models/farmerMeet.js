@@ -43,6 +43,10 @@ const farmerMeet = new Schema({
     },
     farmername:{
         type:String, 
+    },
+    image:{
+        data: Buffer,
+        contentType: String
     }
 }, {timestamps:true});
 

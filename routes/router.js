@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 const {login,signup,testJWT,logout,profile} = require("../controllers/controller");
 const {validateUserProfile}=require("../validations/userValidation");
 const {validateFarmerQuery,validateFarmerMeet}=require("../validations/farmerValidation");
@@ -13,6 +14,17 @@ notAcceptNewScheduleMeet}=require("../controllers/farmerControllers");
 const {getQueries,responseQuery,getMeets,acceptMeetByNGO, changeOfTime} =require("../controllers/ngoControllers");
 const { token } = require("morgan");
 const { getSales } = require('../controllers/sellerControllers');
+
+var storage = multer.diskStorage({
+    destination: function(req,file,cb) {
+        cb(null, 'uploads')
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+})
+
+var upload = multer({ storage: storage })
 
 router.post("/login", login,createToken);
 router.post("/signup", validateUserProfile, signup);
@@ -38,7 +50,7 @@ router.get("/getqueries",tokenAuth,sessionCheck,getQueries);
 router.put("/respondquery",tokenAuth,sessionCheck,responseQuery);
 
 //Meet
-router.post("/postmeet",tokenAuth,sessionCheck,validateFarmerMeet,postMeet);
+router.post("/postmeet",tokenAuth,sessionCheck,validateFarmerMeet,upload.single('image'),postMeet);
 router.get("/getmeet",tokenAuth,sessionCheck,getMeet);
 router.get("/getmeets",tokenAuth,sessionCheck,getMeets);
 router.patch("/acceptmeetbyngo/:id",tokenAuth,sessionCheck,acceptMeetByNGO);

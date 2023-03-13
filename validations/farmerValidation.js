@@ -28,7 +28,11 @@ const validateFarmerMeet = (req,res,next)=>{
         ngotype:joi.string().min(1).max(10).pattern(/^(NGO|Non-NGO)+$/).required(),
         email:joi.string().email(),
         id:joi.string(),
-        location:joi.string().required().min(1).max(200)
+        location:joi.string().required().min(1).max(200),
+        image: joi.object({
+            data: joi.string().required(),
+            contentType: joi.string().required()
+        })
     });
     const {error} = query.validate(req.body);
     if(error)
