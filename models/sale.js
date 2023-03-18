@@ -40,7 +40,7 @@ const sale= new Schema ({
     saleAmount:{
         type: String,
         required: false
-    }
+    },
 }, {timestamps:true});
 const Sale = mongoose.model('sales', sale);
 module.exports=Sale;

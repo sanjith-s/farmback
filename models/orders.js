@@ -1,27 +1,27 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const product= new Schema ({
-    name:{
+const orders = new Schema ({
+    userid:{
         type:String,
         required:true
     },
-    price:{
+    trackID:{
         type:String,
         required:true
     },
-    quantity:{
+    statusHistory:{
+        type:Array,
+        required:true
+    },
+    orderNum:{
         type:String,
         required:true
     },
-    specificType:{
+    destination:{
         type:String,
         required:true
     },
-    location:{
-        type:String,
-        required:true
-    }
 }, {timestamps: true});
 
-const indeProduct = mongoose.model('products', product);
-module.exports = indeProduct;
+const Order = mongoose.model('order', order);
+module.exports = Order;

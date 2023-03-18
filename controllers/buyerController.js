@@ -1,8 +1,10 @@
 const Deal = require("../models/deals");
 const Market=require("../models/market");
-const indeProduct = require("../models/product");
+const indeProduct = require("../models/products");
 const Product=require("../models/products");
 const Transaction = require('../models/transactions');
+require('dotenv').config()
+
 
 const getMarkets = async (req,res) =>{
     try{
@@ -66,10 +68,39 @@ const postRequest = async(req, res) => {
     }
 }
 
+const loadNotifications = async (req,res,next) =>{
+    let email=req.body.email;
+    try {
+        const user = await Users.find({email:email});
+        const data=await Notifications.find({userid:user[0]._id});
+        res.status(200).json({message: data});
+    }
+    catch{
+        res.status(404).json({message: "Error in connection"});
+    }
+}
+
+const loadOrders = async (req,res,next) =>{
+    let email=req.body.email;
+    try {
+        const user = await Users.find({email:email});
+        const data=await Orders.findAll({userid:user[0]._id});
+        res.status(200).json({message: data});
+    }
+    catch{
+        res.status(404).json({message: "Error in connection"});
+    }
+}
+
+
+
+
 module.exports = {
     getMarkets,
     getProducts,
     getDeals,
     getTransactions,
-    postRequest
+    postRequest,
+    loadNotifications,
+    loadOrders,
 }

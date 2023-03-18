@@ -3,6 +3,9 @@ const mongoose = require("mongoose");
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const {webhookHandler} = require("./controllers/paymentController");
+
 require('dotenv').config()
 let router;
 mongoose.connect(process.env.localConnection, {
@@ -19,9 +22,11 @@ mongoose.connect(process.env.localConnection, {
     process.exit(1);
 });
 app.use(express.urlencoded({extended:true}));
+app.post("/webhook", express.raw({ type: 'application/json' }), webhookHandler);
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,() => {
     console.log(`Server started listening on ${PORT}`);

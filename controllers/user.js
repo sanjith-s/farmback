@@ -1,6 +1,9 @@
 const { CreateJWT} = require('../services/jwtAuth');
 const Session = require('../models/sessions');
 const { VerifyJWT } = require('../services/jwtAuth');
+
+const Notifications = require('../models/notifications')
+
 const sessionCheck = async (req,res,next) =>{
     let token = req.headers['tokenstring'];
     let result = VerifyJWT(token);
@@ -77,9 +80,12 @@ const logoutAll = async (req,res,next) =>{
         res.status(404).json({message: "Error in connection"});
     }
 }
+
+
+
 module.exports={
     createToken,
     sessionCheck,
     sessionDelete,
-    logoutAll
+    logoutAll,
 }
