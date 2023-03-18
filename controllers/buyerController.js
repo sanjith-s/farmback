@@ -36,6 +36,7 @@ const getDeals = async(req, res)=> {
     try{
         const deals = await Deal.find({});
         res.status(201).json({message: deals});
+        console.log("Got Deals");
     }catch{
         res.status(500).json({ message: err.message });
     }
@@ -45,6 +46,7 @@ const getTransactions = async(req, res) => {
     try{
             const transactions = await Transaction.find({});
             res.status(201).json({message: transactions});
+            console.log('Got Transactions');
     } catch {
         res.status(500).json({message: err.message});
     }
@@ -52,14 +54,17 @@ const getTransactions = async(req, res) => {
 
 const postRequest = async(req, res) => {
     try{
+        // console.log(req);
         const query = new indeProduct({
-            name:req.name,
-            price:req.price,
-            quantity:req.quantity,
-            specificType:req.specificType,
-            location:req.location,
+            name:req.body.name,
+            price:req.body.price,
+            quantity:req.body.quantity,
+            specificType:req.body.specificType,
+            location:req.body.location,
         })
+        
         await query.save();
+        console.log("After Saving Query");
         res.status(201).json({message: "Product Request added !!"});
     } catch {
         res.status(404).json({message:"Error in Connection."});

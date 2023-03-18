@@ -13,7 +13,7 @@ const deal= new Schema ({
         type: String,
         required:true
     },
-    sType:{
+    specificType:{
         type: String,
         required:true
     },

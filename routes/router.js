@@ -18,7 +18,6 @@ router.post("/login", login,createToken);
 router.post("/signup", validateUserProfile, signup);
 router.get("/testJWT",tokenAuth,sessionCheck,testJWT);
 router.get("/logout",tokenAuth,sessionDelete,logout);
-router.get("/buyer/market",tokenAuth,sessionCheck,getMarkets);
 router.get("/buyer/products/:marketID", tokenAuth,sessionCheck,getProducts);
 router.post("/ml_model/crop_recomendation",ml_model);
 router.post("/logoutAll",logoutAll);
@@ -46,10 +45,12 @@ router.put("/changeofschedule/:id",tokenAuth,sessionCheck,changeOfTime);
 router.patch("/acceptmeetbyfarmer/:id",tokenAuth,sessionCheck,acceptNewScheduleMeet);
 router.patch("/notacceptmeetbyfarmer/:id",tokenAuth,sessionCheck,notAcceptNewScheduleMeet);
 
-// M Pages
+// M 
+router.get("/getmarkets", tokenAuth, sessionCheck, getMarkets);
 router.get("/getsales", tokenAuth, sessionCheck, getSales);
 router.get("/getdeals", tokenAuth, sessionCheck, getDeals);
 router.get("/gettransactions", tokenAuth, sessionCheck, getTransactions);
 router.post("/postrequest", tokenAuth, sessionCheck, postRequest);
-// OVER - M15, M17, M18
+router.get("/getmarkets", tokenAuth, sessionCheck, getMarkets);
+// OVER - M10, M15, M17, M18
 module.exports = router;

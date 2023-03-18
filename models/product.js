@@ -23,5 +23,5 @@ const product= new Schema ({
     }
 }, {timestamps: true});
 
-const indeProduct = mongoose.model('products', product);
+const indeProduct = mongoose.model('product', product);
 module.exports = indeProduct;

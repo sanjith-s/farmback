@@ -9,7 +9,7 @@ const product= new Schema ({
         type: Array,
         required: true
     }
-
+    
 }, {timestamps:true});
 const Product = mongoose.model('products', product);
 module.exports=Product;
