@@ -1,27 +1,23 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const product= new Schema ({
-    name:{
+const notif = new Schema ({
+    userid:{
         type:String,
         required:true
     },
-    price:{
+    subject:{
         type:String,
         required:true
     },
-    quantity:{
+    description:{
         type:String,
         required:true
     },
-    specificType:{
+    status:{
         type:String,
         required:true
     },
-    location:{
-        type:String,
-        required:true
-    }
+}, {timestamps: true});
 
-}, {timestamps:true});
-const Product = mongoose.model('products', product);
-module.exports=Product;
+const Notification = mongoose.model('notification', notif);
+module.exports = Notification;

@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
+
+
 const {login,signup,testJWT,logout,profile} = require("../controllers/controller");
 const {validateUserProfile}=require("../validations/userValidation");
 const {validateFarmerQuery,validateFarmerMeet}=require("../validations/farmerValidation");
 const {tokenAuth}= require('../middlewares/tokenAuth');
 const {createToken,sessionCheck,sessionDelete,logoutAll}=require("../controllers/user");
-const {getMarkets,getProducts, getDeals, getTransactions, postRequest} = require("../controllers/buyerController");
+const {getMarkets,getProducts, getDeals, getTransactions, postRequest, loadNotifications, loadOrders} = require("../controllers/buyerController");
 const {ml_model} = require("../ml_model/crop_recommendation/test");
 const {postQuery,getQuery,deleteQuery,updateQuery,againPostQuery,
 postMeet,getSpecificQuery,getMeet,acceptQuery,acceptNewScheduleMeet,
@@ -13,6 +15,9 @@ notAcceptNewScheduleMeet}=require("../controllers/farmerControllers");
 const {getQueries,responseQuery,getMeets,acceptMeetByNGO, changeOfTime} =require("../controllers/ngoControllers");
 const { token } = require("morgan");
 const { getSales } = require('../controllers/sellerControllers');
+const {uploadFiles, getListFiles, download} = require('../controllers/upload');
+const {webhookHandler, makePayment} = require("../controllers/paymentController");
+
 
 router.post("/login", login,createToken);
 router.post("/signup", validateUserProfile, signup);
@@ -51,6 +56,20 @@ router.get("/getsales", tokenAuth, sessionCheck, getSales);
 router.get("/getdeals", tokenAuth, sessionCheck, getDeals);
 router.get("/gettransactions", tokenAuth, sessionCheck, getTransactions);
 router.post("/postrequest", tokenAuth, sessionCheck, postRequest);
+router.get("/loadnotifications", tokenAuth, sessionCheck, loadNotifications);
+router.get("/loadorders", tokenAuth, sessionCheck, loadOrders);
 router.get("/getmarkets", tokenAuth, sessionCheck, getMarkets);
 // OVER - M10, M15, M17, M18
+
+
+//File handling
+router.post("/upload", uploadFiles);
+router.get("/files", getListFiles);
+router.get("/files/:name", download);
+
+
+//Payments
+router.post("/createPayment", makePayment);
+
+
 module.exports = router;
