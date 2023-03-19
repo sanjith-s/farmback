@@ -12,7 +12,7 @@ postMeet,getSpecificQuery,getMeet,acceptQuery,acceptNewScheduleMeet,
 notAcceptNewScheduleMeet}=require("../controllers/farmerControllers");
 const {getQueries,responseQuery,getMeets,acceptMeetByNGO, changeOfTime} =require("../controllers/ngoControllers");
 const { token } = require("morgan");
-const { getSales } = require('../controllers/sellerControllers');
+const { getSales, getSellerProducts, getPastSales } = require('../controllers/sellerControllers');
 
 router.post("/login", login,createToken);
 router.post("/signup", validateUserProfile, signup);
@@ -46,11 +46,16 @@ router.patch("/acceptmeetbyfarmer/:id",tokenAuth,sessionCheck,acceptNewScheduleM
 router.patch("/notacceptmeetbyfarmer/:id",tokenAuth,sessionCheck,notAcceptNewScheduleMeet);
 
 // M 
-router.get("/getmarkets", tokenAuth, sessionCheck, getMarkets);
-router.get("/getsales", tokenAuth, sessionCheck, getSales);
-router.get("/getdeals", tokenAuth, sessionCheck, getDeals);
-router.get("/gettransactions", tokenAuth, sessionCheck, getTransactions);
-router.post("/postrequest", tokenAuth, sessionCheck, postRequest);
-router.get("/getmarkets", tokenAuth, sessionCheck, getMarkets);
-// OVER - M10, M15, M17, M18
+
+//  Buyer Routes
+router.get("/buyer/getmarkets", tokenAuth, sessionCheck, getMarkets);
+router.get("/buyer/getdeals", tokenAuth, sessionCheck, getDeals);
+router.get("/buyer/gettransactions", tokenAuth, sessionCheck, getTransactions);
+router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
+
+// Seller Routes
+router.get("/seller/getsales", tokenAuth, sessionCheck, getSales);
+router.get("/seller/getsellerproducts", tokenAuth, sessionCheck, getSellerProducts);
+router.get("/seller/pastsales", tokenAuth, sessionCheck, getPastSales);
+// OVER - M10, M15, M17, M18, M6, 
 module.exports = router;
