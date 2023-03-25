@@ -14,7 +14,7 @@ postMeet,getSpecificQuery,getMeet,acceptQuery,acceptNewScheduleMeet,
 notAcceptNewScheduleMeet}=require("../controllers/farmerControllers");
 const {getQueries,responseQuery,getMeets,acceptMeetByNGO, changeOfTime} =require("../controllers/ngoControllers");
 const { token } = require("morgan");
-const { getSales, getSellerProducts, getPastSales } = require('../controllers/sellerControllers');
+const { getSales, getSellerProducts, getPastSales, loadRequests } = require('../controllers/sellerControllers');
 // const { getSales } = require('../controllers/sellerControllers');
 const {uploadFiles, getListFiles, download} = require('../controllers/upload');
 const {webhookHandler, makePayment} = require("../controllers/paymentController");
@@ -65,6 +65,8 @@ router.get("/seller/getsellerproducts", tokenAuth, sessionCheck, getSellerProduc
 router.get("/loadnotifications", tokenAuth, sessionCheck, loadNotifications);
 router.get("/loadorders", tokenAuth, sessionCheck, loadOrders);
 router.get("/seller/pastsales", tokenAuth, sessionCheck, getPastSales);
+
+router.get("/loadrequests", tokenAuth, sessionCheck, loadRequests);
 // OVER - M10, M15, M17, M18, M6, 
 
 
