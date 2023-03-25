@@ -1,5 +1,5 @@
 const { spawn } = require('child_process');
-const ml_model = async (req,res)=>{
+const ml_model_crop = async (req,res)=>{
     let cropname;
     let N=req.body.N;
     let P=req.body.P;
@@ -19,5 +19,5 @@ const ml_model = async (req,res)=>{
 }
 
 module.exports={
-    ml_model
+    ml_model_crop
 }
