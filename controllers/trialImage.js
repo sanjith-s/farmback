@@ -1,33 +1,38 @@
-const File=require("../models/imageModel");
+var imgModel = require('../models/imageModel');
+var fs = require('fs');
+var path = require('path');
 
-const uploadFile = async (req, res) => {
-    try {
-      const query = new File({
-        fileData: req.body.fileData
-      })
-  
-      await query.save();
-      console.log("Image Uploaded !!!");
-      res.status(201).json({ message: "Product Request added !!" });
-    } catch {
-      res.status(404).json({ message: "Error in Connection." });
+const getImages = async (req,res) => {
+  imgModel.find({}, (err, items) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send('An error occurred', err);
     }
-  };
-  
-  const getFiles = async (req, res) => {
-    try{
-        console.log("hi1");
-        const data = await File.find({});
-        console.log(data);
-        console.log("hi2");
-        res.status(201).json({message: data});
+    else {
+      res.render('imagesPage', { items: items });
     }
-    catch{
-        res.status(404).json({message: "Error in connection"});
-    }
-  };
+  });
+};
 
-  module.exports = {
-    uploadFile,
-    getFiles
-  };
+const uploadImage = async (req,res) => {
+  var obj = {
+    img: {
+      data: req.body.fileData,
+      contentType: 'image/jpg'
+    }
+  }
+  imgModel.create(obj, (err, item) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      // item.save();
+      res.redirect('/');
+    }
+  });
+};
+
+module.exports = {
+  getImages,
+  uploadImage
+}

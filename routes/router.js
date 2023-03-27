@@ -1,6 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
+var multer = require('multer');
+
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'uploads')
+  },
+  filename: (req, file, cb) => {
+      cb(null, file.fieldname + '-' + Date.now())
+  }
+});
+
+var upload = multer({ storage: storage });
+
 const {login,signup,testJWT,logout,profile} = require("../controllers/controller");
 const {validateUserProfile}=require("../validations/userValidation");
 const {validateFarmerQuery,validateFarmerMeet}=require("../validations/farmerValidation");
@@ -17,7 +30,7 @@ const { token } = require("morgan");
 const { getSales, getSellerProducts, getPastSales } = require('../controllers/sellerControllers');
 // const { getSales } = require('../controllers/sellerControllers');
 const { uploadFiles, getListFiles, download } = require('../controllers/upload');
-const { uploadFile, getFiles } = require('../controllers/trialImage');
+const { uploadImage, getImages } = require('../controllers/trialImage');
 const { webhookHandler, makePayment } = require("../controllers/paymentController");
 
 
@@ -69,19 +82,16 @@ router.get("/loadorders", tokenAuth, sessionCheck, loadOrders);
 router.get("/seller/pastsales", tokenAuth, sessionCheck, getPastSales);
 // OVER - M10, M15, M17, M18, M6, 
 
-
 //File handling
 router.post("/upload", uploadFiles);
 router.get("/files", getListFiles);
 router.get("/files/:name", download);
 
 //Trial File Handling
-router.post("/uploadFile", uploadFile);
-router.get("/getFiles", getFiles);
-
+router.post("/uploadImage", upload.single('image'), uploadImage);
+router.get("/getImages", getImages);
 
 //Payments
 router.post("/createPayment", makePayment);
-
 
 module.exports = router;
