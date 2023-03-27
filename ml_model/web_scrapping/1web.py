@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import json
+
 url1 = "https://www.livechennai.com/Vegetable_price_chennai.asp"
 r1 = requests.get(url1)
 htmlContent1 = r1.content
