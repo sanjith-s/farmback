@@ -35,6 +35,8 @@ const login = async(req,res,next) => {
             if(verifyPassword(password,post[0].password))
             {
                 res.locals.details=post;
+                res.locals.name = post[0].name;
+                res.locals.phoneno = post[0].phoneno;
                 next();
             }
             else

@@ -13,6 +13,7 @@ const {postQuery,getQuery,deleteQuery,updateQuery,againPostQuery,
 postMeet,getSpecificQuery,getMeet,acceptQuery,acceptNewScheduleMeet,
 notAcceptNewScheduleMeet}=require("../controllers/farmerControllers");
 const {getQueries,responseQuery,getMeets,acceptMeetByNGO, changeOfTime} =require("../controllers/ngoControllers");
+const {postReview} =require("../controllers/reviewController");
 const { token } = require("morgan");
 const { getSales, getSellerProducts, getPastSales } = require('../controllers/sellerControllers');
 // const { getSales } = require('../controllers/sellerControllers');
@@ -69,6 +70,8 @@ router.get("/loadorders", tokenAuth, sessionCheck, loadOrders);
 router.get("/seller/pastsales", tokenAuth, sessionCheck, getPastSales);
 // OVER - M10, M15, M17, M18, M6, 
 
+//Review Route
+router.post("/review", tokenAuth, sessionCheck, postReview);
 
 //File handling
 router.post("/upload", uploadFiles);
