@@ -9,6 +9,9 @@ const {createToken,sessionCheck,sessionDelete,logoutAll}=require("../controllers
 const {getMarkets,getProducts, getDeals, getTransactions, postRequest, loadNotifications, loadOrders} = require("../controllers/buyerController");
 const {ml_model_crop} = require("../ml_model/crop_recommendation/test");
 const {ml_model_web1} = require("../ml_model/web_scrapping/test1");
+const {ml_model_web2} = require("../ml_model/web_scrapping/test2");
+const {ml_model_web3} = require("../ml_model/web_scrapping/test3");
+const {ml_model_web4} = require("../ml_model/web_scrapping/test4");
 const {postQuery,getQuery,deleteQuery,updateQuery,againPostQuery,
 postMeet,getSpecificQuery,getMeet,acceptQuery,acceptNewScheduleMeet,
 notAcceptNewScheduleMeet}=require("../controllers/farmerControllers");
@@ -26,7 +29,10 @@ router.post("/signup", validateUserProfile, signup);
 router.get("/testJWT",tokenAuth,sessionCheck,testJWT);
 router.get("/logout",tokenAuth,sessionDelete,logout);
 router.get("/buyer/products/:marketID", tokenAuth,sessionCheck,getProducts);
-router.get("/ml_model/webscrapping",ml_model_web1);
+router.get("/ml_model/webscrapping/vegetable_price",ml_model_web1);
+router.get("/ml_model/webscrapping/fruits_price",ml_model_web2);
+router.get("/ml_model/webscrapping/spinach_greens_price",ml_model_web3);
+router.get("/ml_model/webscrapping/rice_dal_price_chennai",ml_model_web4);
 router.post("/ml_model/crop_recomendation",ml_model_crop);
 router.post("/logoutAll",logoutAll);
 router.get("/profile",tokenAuth,sessionCheck,profile);
