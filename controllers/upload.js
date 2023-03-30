@@ -6,7 +6,7 @@ const GridFSBucket = require("mongodb").GridFSBucket;
 
 const url = process.env.localConnection;
 
-const baseUrl = "http://localhost:8080/files/";
+const baseUrl = "http://localhost:5000/files/";
 
 const mongoClient = new MongoClient(url);
 
@@ -69,7 +69,7 @@ const download = async (req, res) => {
 
     const database = mongoClient.db('ctf_project');
     const bucket = new GridFSBucket(database, {
-      bucketName: dbConfig.imgBucket,
+      bucketName: process.env.imgBucket,
     });
 
     let downloadStream = bucket.openDownloadStreamByName(req.params.name);
