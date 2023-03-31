@@ -6,7 +6,7 @@ const product= new Schema ({
         required:true
     },
     price:{
-        type:String,
+        type:Number,
         required:true
     },
     quantity:{
@@ -17,6 +17,10 @@ const product= new Schema ({
         type:String,
         required:true
     },
+    rating: {
+        type: String,
+        required: true
+    }
 }, {timestamps: true});
 
 const sellerProduct = mongoose.model('sellerProduct', product);

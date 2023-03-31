@@ -3,6 +3,8 @@ const Market=require("../models/market");
 const indeProduct = require("../models/products");
 const Product=require("../models/products");
 const Transaction = require('../models/transactions');
+const sellerProduct = require('../models/sellerProducts');
+
 require('dotenv').config()
 
 
@@ -97,7 +99,38 @@ const loadOrders = async (req,res,next) =>{
     }
 }
 
-
+const loadProducts = async(req, res) => {
+    try{
+        let result = await sellerProduct.aggregate([
+            {
+              $group: {
+                _id: "$productName",
+                records: {
+                  $push: "$$ROOT"
+                }
+              }
+            },{
+                $unwind: '$records',
+              },
+              {
+                $sort: {
+                  'records.price': 1,
+                }
+              },
+              {
+                $group: {
+                    _id: '$_id',
+                    records: {
+                      $push: "$records"
+                    }
+                  }
+              }
+        ]);
+        res.status(201).json({message: result});
+    } catch {
+        res.status(404).json({message: "Error in connection"});
+    }
+}
 
 
 module.exports = {
@@ -108,4 +141,5 @@ module.exports = {
     postRequest,
     loadNotifications,
     loadOrders,
+    loadProducts,
 }
