@@ -28,7 +28,20 @@ mongoose.connect(process.env.localConnection, {
 
 const find =  async () => {
 
+    let productNames = await sellerProduct.distinct('productName');
+    
+    filterProduct = [];
+
+    ineed = "apple";
+    if(ineed.length==0) {
+        filterProduct = productNames;
+    } else {
+        filterProduct.push("apple")
+    }
+    console.log(filterProduct);
+
     let result = await sellerProduct.aggregate([
+        {'$match': { productName : {$in: filterProduct} } },
         {
           $group: {
             _id: "$productName",
