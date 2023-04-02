@@ -12,18 +12,6 @@ const getSales = async (req, res) => {
     }
 }
 
-const loadRequests = async (req,res,next) =>{
-    let email=req.body.email;
-    try {
-        const user = await Users.find({email:email});
-        const data=await Request.findAll({uid:user[0]._id});
-        res.status(200).json({message: data});
-    }
-    catch{
-        res.status(404).json({message: "Error in connection"});
-    }
-}
-
 const getSellerProducts = async(req, res) => {
     try{
         const data = await sellerProduct.find({});
@@ -44,7 +32,6 @@ const getPastSales = async(req, res) => {
 
 module.exports = {
     getSales,
-    loadRequests,
     getSales,
     getSellerProducts,
     getPastSales

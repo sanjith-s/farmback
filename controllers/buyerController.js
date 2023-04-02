@@ -23,7 +23,7 @@ const getProducts = async (req, res) => {
   } catch {
     res.status(500).json({ message: err.message });
   }
-};
+};  
 const buyProducts = async (req, res) => {
   try {
   } catch {}
@@ -90,7 +90,17 @@ const loadOrders = async (req, res, next) => {
   }
 };
 
-
+const loadRequests = async (req,res,next) =>{
+  let email=req.body.email;
+  try {
+      const user = await Users.find({email:email});
+      const data=await Request.findAll({uid:user[0]._id});
+      res.status(200).json({message: data});
+  }
+  catch{
+      res.status(404).json({message: "Error in connection"});
+  }
+}
 
 const loadProducts = async (req, res) => {
   try {
@@ -147,4 +157,5 @@ module.exports = {
   loadNotifications,
   loadOrders,
   loadProducts,
+  loadRequests
 };
