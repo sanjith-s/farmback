@@ -10,7 +10,7 @@ const baseUrl = "http://localhost:5000/files/";
 
 const mongoClient = new MongoClient(url);
 
-const uploadFiles = async (req, res) => {
+const uploadFiles = async (req, res,next) => {
   try {
     await upload(req, res);
     console.log(req.body);
@@ -19,10 +19,10 @@ const uploadFiles = async (req, res) => {
         message: "You must select a file.",
       });
     }
-
-    return res.send({
-      message: "File has been uploaded.",
-    });
+    res.status(201).json({message: req.body.filenamestore});
+    // return res.send({
+    //   message: "File has been uploaded.",
+    // });
   } catch (error) {
     console.log(error);
 
