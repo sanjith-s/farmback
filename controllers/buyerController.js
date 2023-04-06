@@ -69,7 +69,7 @@ const postRequest = async (req, res) => {
 };
 
 const loadNotifications = async (req, res, next) => {
-  let email = req.body.email;
+  let email = res.locals.details;
   try {
     const user = await Users.find({ email: email });
     const data = await Notifications.find({ userid: user[0]._id });
@@ -80,7 +80,7 @@ const loadNotifications = async (req, res, next) => {
 };
 
 const loadOrders = async (req, res, next) => {
-  let email = req.body.email;
+  let email = res.locals.details;
   try {
     const user = await Users.find({ email: email });
     const data = await Orders.findAll({ userid: user[0]._id });
@@ -91,7 +91,7 @@ const loadOrders = async (req, res, next) => {
 };
 
 const loadRequests = async (req,res,next) =>{
-  let email=req.body.email;
+  let email = res.locals.details;
   try {
       const user = await Users.find({email:email});
       const data=await Request.findAll({uid:user[0]._id});
