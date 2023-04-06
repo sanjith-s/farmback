@@ -5,7 +5,6 @@ const Product=require("../models/products");
 const Transaction = require('../models/transactions');
 require('dotenv').config()
 
-
 const getMarkets = async (req,res) =>{
     try{
         const markets= await Market.find({});
@@ -15,6 +14,7 @@ const getMarkets = async (req,res) =>{
         res.status(500).json({ message: err.message })
     }
 } 
+
 const getProducts = async (req,res) => {
     try{
         const marketID=req.params.marketID;
@@ -96,9 +96,6 @@ const loadOrders = async (req,res,next) =>{
         res.status(404).json({message: "Error in connection"});
     }
 }
-
-
-
 
 module.exports = {
     getMarkets,

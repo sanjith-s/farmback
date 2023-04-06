@@ -24,11 +24,24 @@ const loadRequests = async (req,res,next) =>{
     }
 }
 
-const getSellerProducts = async(req, res) => {
+const postSellerProducts = async(req, res) => {
+    console.log(req.body);
     try{
-        const data = await sellerProduct.find({});
-        res.status(201).json({message: data});
+        console.log()
+        const query = new sellerProduct({
+            productName: req.body.productName,
+            price: req.body.price,
+            quantity: req.body.quantity,
+            type: req.body.type,
+        });
+
+        console.log(req);
+
+        await query.save();
+        console.log("After Saving Query related to Seller Product");
+        res.status(201).json({message: "Seller Product Added"});
     } catch {
+        console.log(req)
         res.status(404).json({message: "Error in connection"});
     }
 }
@@ -46,6 +59,6 @@ module.exports = {
     getSales,
     loadRequests,
     getSales,
-    getSellerProducts,
+    postSellerProducts,
     getPastSales
 }

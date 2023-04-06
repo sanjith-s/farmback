@@ -14,7 +14,7 @@ postMeet,getSpecificQuery,getMeet,acceptQuery,acceptNewScheduleMeet,
 notAcceptNewScheduleMeet}=require("../controllers/farmerControllers");
 const {getQueries,responseQuery,getMeets,acceptMeetByNGO, changeOfTime} =require("../controllers/ngoControllers");
 const { token } = require("morgan");
-const { getSales, getSellerProducts, getPastSales } = require('../controllers/sellerControllers');
+const { getSales, postSellerProducts, getPastSales } = require('../controllers/sellerControllers');
 // const { getSales } = require('../controllers/sellerControllers');
 const {uploadFiles, getListFiles, download} = require('../controllers/upload');
 const {webhookHandler, makePayment} = require("../controllers/paymentController");
@@ -54,14 +54,19 @@ router.patch("/notacceptmeetbyfarmer/:id",tokenAuth,sessionCheck,notAcceptNewSch
 // M 
 
 //  Buyer Routes
-router.get("/buyer/getmarkets", tokenAuth, sessionCheck, getMarkets);
+// router.get("/buyer/getmarkets", tokenAuth, sessionCheck, getMarkets);
+router.get("/buyer/getmarkets", getMarkets);
 router.get("/buyer/getdeals", tokenAuth, sessionCheck, getDeals);
-router.get("/buyer/gettransactions", tokenAuth, sessionCheck, getTransactions);
-router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
+// router.get("/buyer/gettransactions", tokenAuth, sessionCheck, getTransactions);
+router.get("/buyer/gettransactions", getTransactions);
+// router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
+router.post("/buyer/postrequest", postRequest);
 
 // Seller Routes
-router.get("/seller/getsales", tokenAuth, sessionCheck, getSales);
-router.get("/seller/getsellerproducts", tokenAuth, sessionCheck, getSellerProducts);
+// router.get("/seller/getsales", tokenAuth, sessionCheck, getSales);
+router.get("/seller/getsales", getSales);
+// router.get("/seller/getsellerproducts", tokenAuth, sessionCheck, postSellerProducts);
+router.post("/seller/postsellerproducts", postSellerProducts);
 router.get("/loadnotifications", tokenAuth, sessionCheck, loadNotifications);
 router.get("/loadorders", tokenAuth, sessionCheck, loadOrders);
 router.get("/seller/pastsales", tokenAuth, sessionCheck, getPastSales);
@@ -79,3 +84,6 @@ router.post("/createPayment", makePayment);
 
 
 module.exports = router;
+
+
+

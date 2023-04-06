@@ -21,8 +21,11 @@ const market= new Schema ({
     rating:{
         type:Number,
         required: true
+    },
+    sellerDesc: {
+        type: String,
+        required: true
     }
-
 }, {timestamps:true});
 const Market = mongoose.model('markets', market);
 module.exports=Market;
