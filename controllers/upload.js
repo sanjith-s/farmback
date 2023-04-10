@@ -6,24 +6,23 @@ const GridFSBucket = require("mongodb").GridFSBucket;
 
 const url = process.env.localConnection;
 
-const baseUrl = "http://localhost:8080/files/";
+const baseUrl = "http://localhost:5000/files/";
 
 const mongoClient = new MongoClient(url);
 
-const uploadFiles = async (req, res) => {
+const uploadFiles = async (req, res,next) => {
   try {
     await upload(req, res);
-    console.log(req.file);
-
+    console.log(req.body);
     if (req.file == undefined) {
       return res.send({
         message: "You must select a file.",
       });
     }
-
-    return res.send({
-      message: "File has been uploaded.",
-    });
+    res.status(201).json({message: req.body.filenamestore});
+    // return res.send({
+    //   message: "File has been uploaded.",
+    // });
   } catch (error) {
     console.log(error);
 
@@ -70,7 +69,7 @@ const download = async (req, res) => {
 
     const database = mongoClient.db('ctf_project');
     const bucket = new GridFSBucket(database, {
-      bucketName: dbConfig.imgBucket,
+      bucketName: process.env.imgBucket,
     });
 
     let downloadStream = bucket.openDownloadStreamByName(req.params.name);

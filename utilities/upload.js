@@ -8,15 +8,16 @@ var storage = new GridFsStorage({
   options: { useNewUrlParser: true, useUnifiedTopology: true },
   file: (req, file) => {
     const match = ["image/png", "image/jpeg"];
-
+    const filenamestore=`${Date.now()}-upload-${file.originalname}`;
+    req.body.filenamestore=filenamestore;
     if (match.indexOf(file.mimetype) === -1) {
-      const filename = `${Date.now()}-upload-${file.originalname}`;
+      const filename = filenamestore;
       return filename;
     }
 
     return {
       bucketName: process.env.imgBucket,
-      filename: `${Date.now()}-upload-${file.originalname}`
+      filename: filenamestore
     };
   }
 });
