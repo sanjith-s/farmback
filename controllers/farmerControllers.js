@@ -14,6 +14,7 @@ const postQuery = async (req,res) => {
             response:'',
             responser:'',
             oldQuery:[],
+            filename:"http://localhost:5000/files/"+req.body.filename
         })
         await query.save();
         res.status(201).json({message: "Query Added Successfully"});
@@ -105,7 +106,8 @@ const postMeet = async (req,res) => {
             status:"Waiting for NGO",
             location: req.body.location,
             ngoname: "",
-            farmername: profile.name
+            farmername: profile.name,
+            filename:"http://localhost:5000/files/"+req.body.filename
         })
         await query.save();
         res.status(201).json({message: "Meet Added, Waiting for NGO Reply"});

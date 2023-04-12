@@ -1,12 +1,14 @@
-const reviewAdd = require("../models/reviews");
+const Review = require("../models/reviews");
+const Users=require("../models/credentials");
 
 const postReview = async(req, res) => {
     try{
-        console.log(res.locals.details);
-        const query = new reviewAdd({
-            name:res.locals.name,
+        let email=res.locals.details;
+        const profile = await Users.findOne({email:email});
+        const query = new Review({
+            name:profile.name,
             email:res.locals.details,
-            phonenum:res.locals.phoneno,
+            phonenum:profile.phoneno,
             review:req.body.review,
         })
         

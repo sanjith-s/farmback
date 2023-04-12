@@ -26,6 +26,9 @@ const farmerQuery = new Schema({
     },
     oldQuery:{
         type:Array,
+    },
+    filename:{
+        type:String,
     }
 }, {timestamps:true});
 

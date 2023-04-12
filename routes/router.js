@@ -25,6 +25,7 @@ const { uploadFile, getFiles } = require('../controllers/trialImage');
 const { webhookHandler, makePayment } = require("../controllers/paymentController");
 
 
+
 router.post("/login", login, createToken);
 router.post("/signup", validateUserProfile, signup);
 router.get("/testJWT",tokenAuth,sessionCheck,testJWT);

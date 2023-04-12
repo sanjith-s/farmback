@@ -4,6 +4,9 @@ const indeProduct = require("../models/products");
 const Product = require("../models/products");
 const Transaction = require("../models/transactions");
 const sellerProduct = require("../models/sellerProducts");
+const Users = require("../models/credentials");
+const Orders = require("../models/orders");
+const Request = require("../models/notifications");
 
 require("dotenv").config();
 
@@ -69,7 +72,7 @@ const postRequest = async (req, res) => {
 };
 
 const loadNotifications = async (req, res, next) => {
-  let email = req.body.email;
+  let email = res.locals.details;
   try {
     const user = await Users.find({ email: email });
     const data = await Notifications.find({ userid: user[0]._id });
@@ -80,7 +83,7 @@ const loadNotifications = async (req, res, next) => {
 };
 
 const loadOrders = async (req, res, next) => {
-  let email = req.body.email;
+  let email = res.locals.details;
   try {
     const user = await Users.find({ email: email });
     const data = await Orders.findAll({ userid: user[0]._id });
@@ -91,7 +94,7 @@ const loadOrders = async (req, res, next) => {
 };
 
 const loadRequests = async (req,res,next) =>{
-  let email=req.body.email;
+  let email = res.locals.details;
   try {
       const user = await Users.find({email:email});
       const data=await Request.findAll({uid:user[0]._id});
