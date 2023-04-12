@@ -58,6 +58,7 @@ const getPastSales = async(req, res) => {
 module.exports = {
     getSales,
     getSales,
+    loadRequests,
     postSellerProducts,
     getPastSales
 }

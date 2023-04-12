@@ -64,26 +64,26 @@ router.patch("/notacceptmeetbyfarmer/:id", tokenAuth, sessionCheck, notAcceptNew
 // M 
 
 //  Buyer Routes
-// router.get("/buyer/getmarkets", tokenAuth, sessionCheck, getMarkets);
-router.get("/buyer/getmarkets", getMarkets);
+// router.get("/buyer/getmarkets", getMarkets);
+router.get("/buyer/getmarkets", tokenAuth, sessionCheck, getMarkets);
 router.get("/buyer/getdeals", tokenAuth, sessionCheck, getDeals);
-// router.get("/buyer/gettransactions", tokenAuth, sessionCheck, getTransactions);
-router.get("/buyer/gettransactions", getTransactions);
-// router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
-router.post("/buyer/postrequest", postRequest);
+router.get("/buyer/gettransactions", tokenAuth, sessionCheck, getTransactions);
+router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
 router.get("/buyer/gettransactions", tokenAuth, sessionCheck, getTransactions);
 router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
 router.get("/buyer/loadproducts", tokenAuth, sessionCheck, loadProducts);
+// router.get("/buyer/gettransactions", getTransactions);
+// router.post("/buyer/postrequest", postRequest);
 
 // Seller Routes
-// router.get("/seller/getsales", tokenAuth, sessionCheck, getSales);
-router.get("/seller/getsales", getSales);
-// router.get("/seller/getsellerproducts", tokenAuth, sessionCheck, postSellerProducts);
-router.post("/seller/postsellerproducts", postSellerProducts);
+router.get("/seller/getsales", tokenAuth, sessionCheck, getSales);
+router.get("/seller/getsellerproducts", tokenAuth, sessionCheck, postSellerProducts);
 router.get("/loadnotifications", tokenAuth, sessionCheck, loadNotifications);
 router.get("/loadorders", tokenAuth, sessionCheck, loadOrders);
 router.get("/loadrequests", tokenAuth, sessionCheck, loadRequests);
 router.get("/seller/pastsales", tokenAuth, sessionCheck, getPastSales);
+// router.post("/seller/postsellerproducts", postSellerProducts);
+// router.get("/seller/getsales", getSales);
 // OVER - M10, M15, M17, M18, M6, 
 
 //Review Route
