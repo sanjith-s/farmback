@@ -26,7 +26,9 @@
     "multer": "^1.4.5-lts.1",
     "multer-gridfs-storage": "^5.0.2",
     "mysql": "^2.18.1",
+    "otp-generator": "^4.0.1",
     "stripe": "^11.15.0",
+    "twilio": "^4.10.0",
     "util": "^0.12.5"
   },
   "devDependencies": {

@@ -26,6 +26,7 @@ const sessionCheck = async (req,res,next) =>{
         res.status(404).json({message: "Error in connection"});
     }
 };
+
 const createToken = async(req,res,next)=>{
     let email = req.body.email;
     const token = CreateJWT(email);
@@ -36,12 +37,14 @@ const createToken = async(req,res,next)=>{
     try{
         let session = new Session({email:email,tokenID:token});
         await session.save();
-        res.status(201).json({message: "Successful",token:token, details: res.locals.details});
+        res.status(201).json({message: "Successful",token:token, name: res.locals.name});
     }
     catch(err){
         res.status(400).json({message: "Error in login"});
     }
 }
+
+
 const sessionDelete = async (req,res,next) =>{
     let token = req.headers['tokenstring'];
     try
