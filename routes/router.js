@@ -39,7 +39,7 @@ router.post("/ml_model/crop_recomendation",ml_model_crop);
 router.post("/logoutAll",logoutAll);
 router.get("/profile",tokenAuth,sessionCheck,profile);
 router.post("/getotp", generateOTP, createToken);
-router.post("/getotp", verifyOTP);
+router.post("/verifyotp", verifyOTP);
 router.post("/resetpass", resetPassword, sessionDelete, resetDone);
 //N Pages
 
