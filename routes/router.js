@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const {login,signup,testJWT,logout,profile} = require("../controllers/controller");
+const {login,signup,testJWT,logout,profile, generateOTP, verifyOTP, resetPassword, resetDone} = require("../controllers/controller");
 const {validateUserProfile}=require("../validations/userValidation");
 const {validateFarmerQuery,validateFarmerMeet}=require("../validations/farmerValidation");
 const {tokenAuth}= require('../middlewares/tokenAuth');
@@ -38,7 +38,9 @@ router.get("/ml_model/webscrapping/rice_dal_price_chennai",ml_model_web4);
 router.post("/ml_model/crop_recomendation",ml_model_crop);
 router.post("/logoutAll",logoutAll);
 router.get("/profile",tokenAuth,sessionCheck,profile);
-
+router.post("/getotp", generateOTP, createToken);
+router.post("/verifyotp", verifyOTP);
+router.post("/resetpass", resetPassword, sessionDelete, resetDone);
 //N Pages
 
 //Queries

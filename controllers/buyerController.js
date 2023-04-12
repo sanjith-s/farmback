@@ -4,6 +4,9 @@ const indeProduct = require("../models/products");
 const Product = require("../models/products");
 const Transaction = require("../models/transactions");
 const sellerProduct = require("../models/sellerProducts");
+const Users = require("../models/credentials");
+const Orders = require("../models/orders");
+const Request = require("../models/notifications");
 
 require("dotenv").config();
 

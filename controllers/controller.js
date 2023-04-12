@@ -1,5 +1,10 @@
 const Users=require("../models/credentials");
+const SecretBook=require("../models/otp");
+
 const {hashPassword,verifyPassword}=require("../utilities/hashPassword");
+const otpGenerator = require('otp-generator')
+
+
 const signup = async (req,res) => {
     const hashedPassword=hashPassword(req.body.password);
     let user = new Users(req.body);
@@ -34,7 +39,7 @@ const login = async(req,res,next) => {
         {
             if(verifyPassword(password,post[0].password))
             {
-                res.locals.details=post;
+                res.locals.details = post;
                 res.locals.name = post[0].name;
                 res.locals.phoneno = post[0].phoneno;
                 next();
@@ -72,10 +77,89 @@ const profile = async (req,res) => {
     }
 }
 
+const generateOTP = async(req,res,next) => {
+    let email = req.body.email;
+    try {
+
+        console.log(req.body)
+        const user = await Users.find({email:email});
+        if(user.length===0) {
+            res.status(404).json({message: "No user exists"});
+        }
+        else
+        {
+                res.locals.name = post[0].name;
+                let otp = otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
+                const hashedOTP=hashPassword(otp);
+                let secret = new SecretBook({email: email, userSecret: hashedOTP});
+                await secret.save();
+                next();
+        }
+    } catch(err) {
+        res.status(500).json({ message: err.message })
+    }
+}
+
+const verifyOTP = async(req,res,next) => {
+    let otp = req.body.otp;
+    try {
+
+        console.log(req.body)
+        const record = await SecretBook.find({email:email});
+        if(record.length===0) {
+            res.status(404).json({message: "OTP Expired. Retry!!"});
+        }
+        else
+        {
+                if(verifyPassword(otp, record[0].userSecret)) {
+                    res.status(200).json({message: "Verification Successful"});
+                } else {
+                    res.status(401).json({message: "Invalid OTP. Try Again!"})
+                }
+        }
+    } catch(err) {
+        res.status(500).json({ message: err.message })
+    }
+}
+
+const resetPassword = async(req,res,next) => {
+    let email = req.body.email;
+    try {
+
+        const record = await Users.findOne({email:email});
+        if(record.length===0) {
+            res.status(404).json({message: "User Not found!!"});
+        }
+        else
+        {
+            record.password = hashPassword(req.body.password);
+            await record.save();
+            next();
+            res.status(500).json({ message: "Password Save successful" })
+        }
+    } catch(err) {
+        res.status(500).json({ message: err.message })
+    }
+}
+
+const resetDone = async (req,res) => {
+    let token = req.headers['tokenstring'];
+    if(!token){
+      return res.status(400).json({message: 'Missing Token'});
+    }
+    res.removeHeader('tokenstring');
+    return res.status(200).json({ message: 'Password Save Successful' });
+}
+
+
 module.exports = {
     login,
     signup,
     testJWT, 
     logout,
-    profile
-}
+    profile,
+    generateOTP,
+    verifyOTP,
+    resetPassword,
+    resetDone
+} 
