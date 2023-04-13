@@ -61,6 +61,18 @@ const credentialsSchema = new Schema({
     typeOfAcc: {
         type: String,
         required: true
+    },
+
+    filename:{
+        type:String,
+    },
+
+    doc1:{
+        type:String,
+    },
+
+    doc2:{
+        type:String,
     }
 }, {timestamps:true});
 

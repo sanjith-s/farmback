@@ -1,24 +1,24 @@
 const express = require("express");
 const router = express.Router();
 
-const {login,signup,testJWT,logout,profile, generateOTP, verifyOTP, resetPassword, resetDone} = require("../controllers/controller");
-const {validateUserProfile}=require("../validations/userValidation");
-const {validateFarmerQuery,validateFarmerMeet}=require("../validations/farmerValidation");
-const {tokenAuth}= require('../middlewares/tokenAuth');
-const {createToken,sessionCheck,sessionDelete,logoutAll}=require("../controllers/user");
-const {getMarkets,getProducts, getDeals, getTransactions, postRequest, loadNotifications, loadOrders, loadProducts, loadRequests} = require("../controllers/buyerController");
-const {ml_model_crop} = require("../ml_model/crop_recommendation/test");
-const {ml_model_web1} = require("../ml_model/web_scrapping/test1");
-const {ml_model_web2} = require("../ml_model/web_scrapping/test2");
-const {ml_model_web3} = require("../ml_model/web_scrapping/test3");
-const {ml_model_web4} = require("../ml_model/web_scrapping/test4");
-const {postQuery,getQuery,deleteQuery,updateQuery,againPostQuery,
-postMeet,getSpecificQuery,getMeet,acceptQuery,acceptNewScheduleMeet,
-notAcceptNewScheduleMeet}=require("../controllers/farmerControllers");
-const {getQueries,responseQuery,getMeets,acceptMeetByNGO, changeOfTime} =require("../controllers/ngoControllers");
-const {postReview} =require("../controllers/reviewController");
+const { login, signup, testJWT, logout, profile, generateOTP, verifyOTP, resetPassword, resetDone } = require("../controllers/controller");
+const { validateUserProfile } = require("../validations/userValidation");
+const { validateFarmerQuery, validateFarmerMeet } = require("../validations/farmerValidation");
+const { tokenAuth } = require('../middlewares/tokenAuth');
+const { createToken, sessionCheck, sessionDelete, logoutAll } = require("../controllers/user");
+const { getMarkets, getProducts, getDeals, getTransactions, postRequest, loadNotifications, loadOrders, loadProducts } = require("../controllers/buyerController");
+const { ml_model_crop } = require("../ml_model/crop_recommendation/test");
+const { ml_model_web1 } = require("../ml_model/web_scrapping/test1");
+const { ml_model_web2 } = require("../ml_model/web_scrapping/test2");
+const { ml_model_web3 } = require("../ml_model/web_scrapping/test3");
+const { ml_model_web4 } = require("../ml_model/web_scrapping/test4");
+const { postQuery, getQuery, deleteQuery, updateQuery, againPostQuery,
+    postMeet, getSpecificQuery, getMeet, acceptQuery, acceptNewScheduleMeet,
+    notAcceptNewScheduleMeet } = require("../controllers/farmerControllers");
+const { getQueries, getQueriesN10, responseQuery, getMeets, getMeetsN10, acceptMeetByNGO, changeOfTime } = require("../controllers/ngoControllers");
+const { postReview } = require("../controllers/reviewController");
 const { token } = require("morgan");
-const { getSales, postSellerProducts, getPastSales } = require('../controllers/sellerControllers');
+const { getSales, postSellerProducts, getPastSales, loadRequests, loadRequestsM0 } = require('../controllers/sellerControllers');
 // const { getSales } = require('../controllers/sellerControllers');
 const { uploadFiles, getListFiles, download } = require('../controllers/upload');
 const { uploadFile, getFiles } = require('../controllers/trialImage');
@@ -28,16 +28,16 @@ const { webhookHandler, makePayment } = require("../controllers/paymentControlle
 
 router.post("/login", login, createToken);
 router.post("/signup", validateUserProfile, signup);
-router.get("/testJWT",tokenAuth,sessionCheck,testJWT);
-router.get("/logout",tokenAuth,sessionDelete,logout);
-router.get("/buyer/products/:marketID", tokenAuth,sessionCheck,getProducts);
-router.get("/ml_model/webscrapping/vegetable_price",ml_model_web1);
-router.get("/ml_model/webscrapping/fruits_price",ml_model_web2);
-router.get("/ml_model/webscrapping/spinach_greens_price",ml_model_web3);
-router.get("/ml_model/webscrapping/rice_dal_price_chennai",ml_model_web4);
-router.post("/ml_model/crop_recomendation",ml_model_crop);
-router.post("/logoutAll",logoutAll);
-router.get("/profile",tokenAuth,sessionCheck,profile);
+router.get("/testJWT", tokenAuth, sessionCheck, testJWT);
+router.get("/logout", tokenAuth, sessionDelete, logout);
+router.get("/buyer/products/:marketID", tokenAuth, sessionCheck, getProducts);
+router.get("/ml_model/webscrapping/vegetable_price", ml_model_web1);
+router.get("/ml_model/webscrapping/fruits_price", ml_model_web2);
+router.get("/ml_model/webscrapping/spinach_greens_price", ml_model_web3);
+router.get("/ml_model/webscrapping/rice_dal_price_chennai", ml_model_web4);
+router.post("/ml_model/crop_recomendation", ml_model_crop);
+router.post("/logoutAll", logoutAll);
+router.get("/profile", tokenAuth, sessionCheck, profile);
 router.post("/getotp", generateOTP, createToken);
 router.post("/verifyotp", verifyOTP);
 router.post("/resetpass", resetPassword, sessionDelete, resetDone);
@@ -52,12 +52,14 @@ router.put("/editquery", tokenAuth, sessionCheck, validateFarmerQuery, updateQue
 router.put("/againpostquery", tokenAuth, sessionCheck, validateFarmerQuery, againPostQuery);
 router.put("/acceptquery/:id", tokenAuth, sessionCheck, acceptQuery);
 router.get("/getqueries", tokenAuth, sessionCheck, getQueries);
+router.get("/getqueriesN10", tokenAuth, sessionCheck, getQueriesN10);
 router.put("/respondquery", tokenAuth, sessionCheck, responseQuery);
 
 //Meet
 router.post("/postmeet", tokenAuth, sessionCheck, validateFarmerMeet, postMeet);
 router.get("/getmeet", tokenAuth, sessionCheck, getMeet);
 router.get("/getmeets", tokenAuth, sessionCheck, getMeets);
+router.get("/getmeetsN10", tokenAuth, sessionCheck, getMeetsN10);
 router.patch("/acceptmeetbyngo/:id", tokenAuth, sessionCheck, acceptMeetByNGO);
 router.put("/changeofschedule/:id", tokenAuth, sessionCheck, changeOfTime);
 router.patch("/acceptmeetbyfarmer/:id", tokenAuth, sessionCheck, acceptNewScheduleMeet);
@@ -79,10 +81,11 @@ router.get("/buyer/loadproducts", tokenAuth, sessionCheck, loadProducts);
 
 // Seller Routes
 router.get("/seller/getsales", tokenAuth, sessionCheck, getSales);
-router.get("/seller/getsellerproducts", tokenAuth, sessionCheck, postSellerProducts);
+router.post("/seller/postsellerproducts", tokenAuth, sessionCheck, postSellerProducts);
 router.get("/loadnotifications", tokenAuth, sessionCheck, loadNotifications);
 router.get("/loadorders", tokenAuth, sessionCheck, loadOrders);
 router.get("/loadrequests", tokenAuth, sessionCheck, loadRequests);
+router.get("/loadrequestsM0", tokenAuth, sessionCheck, loadRequestsM0);
 router.get("/seller/pastsales", tokenAuth, sessionCheck, getPastSales);
 // router.post("/seller/postsellerproducts", postSellerProducts);
 // router.get("/seller/getsales", getSales);

@@ -6,7 +6,7 @@ const Transaction = require("../models/transactions");
 const sellerProduct = require("../models/sellerProducts");
 const Users = require("../models/credentials");
 const Orders = require("../models/orders");
-const Request = require("../models/notifications");
+const Notifications = require("../models/notifications");
 
 require("dotenv").config();
 
@@ -94,6 +94,17 @@ const loadOrders = async (req, res, next) => {
   }
 };
 
+const loadOrdersM0 = async (req, res, next) => {
+  let email = res.locals.details;
+  try {
+    const user = await Users.find({ email: email });
+    const data = await Orders.find({ userid: user[0]._id }).sort({ updatedAt: - 1 }).limit(3);
+    res.status(200).json({ message: data });
+  } catch {
+    res.status(404).json({ message: "Error in connection" });
+  }
+};
+
 const loadRequests = async (req,res,next) =>{
   let email = res.locals.details;
   try {
@@ -109,7 +120,7 @@ const loadRequests = async (req,res,next) =>{
 const loadProducts = async (req, res) => {
   try {
     let productNames = await sellerProduct.distinct("productName");
-
+    console.log(productNames);
     filterProduct = [];
 
     filterValue = req.body.productName;

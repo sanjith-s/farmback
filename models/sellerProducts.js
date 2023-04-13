@@ -20,6 +20,10 @@ const product= new Schema ({
     rating: {
         type: String,
         required: true
+    },
+    filename:{
+        type:String,
+        required: true
     }
 }, {timestamps: true});
 

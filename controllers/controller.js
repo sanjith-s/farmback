@@ -80,15 +80,16 @@ const profile = async (req,res) => {
 const generateOTP = async(req,res,next) => {
     let email = req.body.email;
     try {
-
+        SecretBook.remove({});
         console.log(req.body)
         const user = await Users.find({email:email});
+        console.log(user.length);
         if(user.length===0) {
             res.status(404).json({message: "No user exists"});
         }
         else
         {
-                res.locals.name = post[0].name;
+                res.locals.name = user[0].name;
                 let otp = otpGenerator.generate(6, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false });
                 const hashedOTP=hashPassword(otp);
                 let secret = new SecretBook({email: email, userSecret: hashedOTP});
@@ -125,7 +126,6 @@ const verifyOTP = async(req,res,next) => {
 const resetPassword = async(req,res,next) => {
     let email = req.body.email;
     try {
-
         const record = await Users.findOne({email:email});
         if(record.length===0) {
             res.status(404).json({message: "User Not found!!"});
@@ -135,7 +135,7 @@ const resetPassword = async(req,res,next) => {
             record.password = hashPassword(req.body.password);
             await record.save();
             next();
-            res.status(500).json({ message: "Password Save successful" })
+            res.status(200).json({ message: "Password Save successful" })
         }
     } catch(err) {
         res.status(500).json({ message: err.message })
