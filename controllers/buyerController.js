@@ -152,34 +152,47 @@ const loadProducts = async (req, res) => {
       filterProduct.push(filterValue);
     }
 
-    let result = await sellerProduct.aggregate([
-      { $match: { productName: { $in: filterProduct } } },
-      {
-        $group: {
-          _id: "$productName",
-          records: {
-            $push: "$$ROOT",
-          },
-        },
-      },
-      {
-        $unwind: "$records",
-      },
-      {
-        $sort: {
-          "records.price": 1,
-        },
-      },
-      {
-        $group: {
-          _id: "$_id",
-          records: {
-            $push: "$records",
-          },
-        },
-      },
-    ]);
+    // let result = await sellerProduct.aggregate([
+    //   { $match: { productName: { $in: filterProduct } } },
+    //   {
+    //     $group: {
+    //       _id: "$productName",
+    //       records: {
+    //         $push: "$$ROOT",
+    //       },
+    //     },
+    //   },
+    //   {
+    //     $unwind: "$records",
+    //   },
+    //   {
+    //     $sort: {
+    //       "records.price": 1,
+    //     },
+    //   },
+    //   {
+    //     $group: {
+    //       _id: "$_id",
+    //       records: {
+    //         $push: "$records",
+    //       },
+    //     },
+    //   },
+    // ]);
+    let result = await sellerProduct.find({});
+    console.log(result);
     res.status(201).json({ message: result });
+  } catch {
+    res.status(404).json({ message: "Error in connection" });
+  }
+};
+
+const fetchPrices = async (req, res) => {
+  try {
+    let data = await Transaction.find({}).select({_id: 0, time: 1, amount: 2});
+    console.log(data);
+
+    res.status(201).json({ priceHistory: data });
   } catch {
     res.status(404).json({ message: "Error in connection" });
   }
@@ -194,5 +207,6 @@ module.exports = {
   loadNotifications,
   loadOrders,
   loadProducts,
-  loadRequests
+  loadRequests,
+  fetchPrices,
 };
