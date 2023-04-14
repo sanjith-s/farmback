@@ -1,7 +1,7 @@
 const { CreateJWT} = require('../services/jwtAuth');
 const Session = require('../models/sessions');
 const { VerifyJWT } = require('../services/jwtAuth');
-
+const Users=require("../models/credentials");
 const Notifications = require('../models/notifications')
 
 const sessionCheck = async (req,res,next) =>{
@@ -30,6 +30,7 @@ const sessionCheck = async (req,res,next) =>{
 const createToken = async(req,res,next)=>{
     let email = req.body.email;
     const token = CreateJWT(email);
+    const post = await Users.find({email:email});
     res.set({
         'Content-Type': 'application/json',
         'tokenstring': token,
@@ -37,7 +38,7 @@ const createToken = async(req,res,next)=>{
     try{
         let session = new Session({email:email,tokenID:token});
         await session.save();
-        res.status(201).json({message: "Successful",token:token, name: res.locals.name});
+        res.status(201).json({message: "Successful",token:token, name: res.locals.name, details: post});
     }
     catch(err){
         res.status(400).json({message: "Error in login"});
@@ -90,5 +91,5 @@ module.exports={
     createToken,
     sessionCheck,
     sessionDelete,
-    logoutAll,
+    logoutAll,
 }
