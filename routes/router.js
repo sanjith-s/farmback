@@ -75,7 +75,7 @@ router.get("/buyer/gettransactions", tokenAuth, sessionCheck, getTransactions);
 router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
 router.get("/buyer/gettransactions", tokenAuth, sessionCheck, getTransactions);
 router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
-router.get("/buyer/loadproducts", tokenAuth, sessionCheck, loadProducts);
+router.post("/buyer/loadproducts", tokenAuth, sessionCheck, loadProducts);
 // router.get("/buyer/gettransactions", getTransactions);
 // router.post("/buyer/postrequest", postRequest);
 
