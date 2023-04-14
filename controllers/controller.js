@@ -2,8 +2,9 @@ const Users=require("../models/credentials");
 const SecretBook=require("../models/otp");
 
 const {hashPassword,verifyPassword}=require("../utilities/hashPassword");
-const otpGenerator = require('otp-generator')
+const otpGenerator = require('otp-generator');
 
+const {sendMail} = require("../utilities/sendOTP");
 
 const signup = async (req,res) => {
     const hashedPassword=hashPassword(req.body.password);
@@ -83,7 +84,7 @@ const generateOTP = async(req,res,next) => {
         SecretBook.remove({});
         console.log(req.body)
         const user = await Users.find({email:email});
-        console.log(user.length);
+        //console.log(user.length);
         if(user.length===0) {
             res.status(404).json({message: "No user exists"});
         }
@@ -94,6 +95,7 @@ const generateOTP = async(req,res,next) => {
                 const hashedOTP=hashPassword(otp);
                 let secret = new SecretBook({email: email, userSecret: hashedOTP});
                 await secret.save();
+                sendMail(email, otp);
                 next();
         }
     } catch(err) {
