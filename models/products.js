@@ -20,6 +20,10 @@ const product= new Schema ({
     location:{
         type:String,
         required:true
+    },
+    userEmail: {
+        type: String,
+        required: true
     }
 
 }, {timestamps:true});

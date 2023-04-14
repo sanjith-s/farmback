@@ -7,6 +7,7 @@ const sellerProduct = require("../models/sellerProducts");
 const Users = require("../models/credentials");
 const Orders = require("../models/orders");
 const Notifications = require("../models/notifications");
+const productRequest = require('../models/productRequest');
 
 require("dotenv").config();
 
@@ -56,15 +57,36 @@ const getTransactions = async (req, res) => {
 const postRequest = async (req, res) => {
   try {
     // console.log(req);
+    const profile = await Users.findOne({ email: req.body.email });
     const query = new indeProduct({
       name: req.body.name,
       price: req.body.price,
       quantity: req.body.quantity,
       specificType: req.body.specificType,
       location: req.body.location,
+      userEmail: profile.email
     });
 
+    console.log("dONE");
+
+    const reqQuery = new productRequest({
+      uid: profile.email,
+      name: profile.name,
+      price: req.body.price,
+      phoneNumber: profile.phoneno,
+      itemName: req.body.name,
+      quantity: req.body.quantity,
+      address: {
+        addline1: profile.addline1,
+        addline2: profile.addline2
+      }
+    })
+
+    console.log("dONE 2");
+
     await query.save();
+    await reqQuery.save();
+
     console.log("After Saving Query");
     res.status(201).json({ message: "Product Request added !!" });
   } catch {

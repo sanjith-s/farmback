@@ -8,7 +8,7 @@ const requests = new Schema ({
     },
     reqID:{
         type:String,
-        required:true
+        // required:true
     },
     name:{
         type:String,
@@ -26,9 +26,21 @@ const requests = new Schema ({
         type:String,
         required:true
     },
-    imgID: {
+    price: {
         type: String,
         required: true
+    },
+    imgID: {
+        type: String,
+        // required: true
+    },
+    address: {
+        addline1: {
+            type: String
+        },
+        addline2: {
+            type:String
+        }
     }
 }, {timestamps: true});
 
