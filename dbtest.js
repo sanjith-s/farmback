@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 require('dotenv').config()
 const sellerProduct = require('./models/sellerProducts');
+const TransTest = require('./models/transTest');
 
 
 mongoose.connect(process.env.localConnection, {
@@ -25,49 +26,16 @@ mongoose.connect(process.env.localConnection, {
 // sellerProduct.create({productName: "orange", price: 9.2, quantity: "10", type: "fruit", rating: "9.7"});
 
 
+// for(let i=0; i<100; ++i) {
+//   TransTest.create({time: new Date(), amount: i*10});  
+// }
+
 
 const find =  async () => {
 
-    let productNames = await sellerProduct.distinct('productName');
+    let data = await TransTest.find({}).select({_id: 0, time: 1, amount: 2});
     
-    filterProduct = [];
-
-    ineed = "apple";
-    if(ineed.length==0) {
-        filterProduct = productNames;
-    } else {
-        filterProduct.push("apple")
-    }
-    console.log(filterProduct);
-
-    let result = await sellerProduct.aggregate([
-        {'$match': { productName : {$in: filterProduct} } },
-        {
-          $group: {
-            _id: "$productName",
-            records: {
-              $push: "$$ROOT"
-            }
-          }
-        },{
-            $unwind: '$records',
-          },
-          {
-            $sort: {
-              'records.price': 1,
-            }
-          },
-          {
-            $group: {
-                _id: '$_id',
-                records: {
-                  $push: "$records"
-                }
-              }
-          }
-    ]);
-    
-    console.log(result);
+    console.log(data);
 
 } 
 

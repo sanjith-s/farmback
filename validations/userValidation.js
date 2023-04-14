@@ -14,6 +14,10 @@ const validateUserProfile = (req,res,next)=>{
         email: joi.string().email(),
         password: joi.string().min(5).max(20).required(),
         typeOfAcc: joi.string().min(1).max(20).required(),
+        latitude:joi.number(),
+        longitude:joi.number(),
+        doc1:joi.string(),
+        doc2:joi.string()
     });
     const {error} = users.validate(req.body);
     if(error)

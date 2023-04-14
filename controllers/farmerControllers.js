@@ -180,6 +180,16 @@ const notAcceptNewScheduleMeet = async (req,res) => {
     }
 }
 
+const getNGO = async (req,res) => {
+    try{
+        const data = await Users.find({typeOfAcc:"NGO"});
+        res.status(201).json({message: data});
+    }
+    catch{
+        res.status(404).json({message: "Error in connection"});
+    }
+}
+
 module.exports={
     postQuery,
     getQuery,
@@ -191,5 +201,6 @@ module.exports={
     getMeet,
     acceptQuery,
     acceptNewScheduleMeet,
-    notAcceptNewScheduleMeet
+    notAcceptNewScheduleMeet,
+    getNGO
 }
