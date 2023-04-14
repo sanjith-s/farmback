@@ -6,7 +6,7 @@ const { validateUserProfile } = require("../validations/userValidation");
 const { validateFarmerQuery, validateFarmerMeet } = require("../validations/farmerValidation");
 const { tokenAuth } = require('../middlewares/tokenAuth');
 const { createToken, sessionCheck, sessionDelete, logoutAll } = require("../controllers/user");
-const { getMarkets, getProducts, getDeals, getTransactions, postRequest, loadNotifications, loadOrders, loadProducts } = require("../controllers/buyerController");
+const { getMarkets, getProducts, getDeals, getTransactions, postRequest, loadNotifications, loadOrders, loadProducts, postCart, getCart } = require("../controllers/buyerController");
 const { ml_model_crop } = require("../ml_model/crop_recommendation/test");
 const { ml_model_web1 } = require("../ml_model/web_scrapping/test1");
 const { ml_model_web2 } = require("../ml_model/web_scrapping/test2");
@@ -76,6 +76,9 @@ router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
 router.get("/buyer/gettransactions", tokenAuth, sessionCheck, getTransactions);
 router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
 router.post("/buyer/loadproducts", tokenAuth, sessionCheck, loadProducts);
+router.post("/buyer/postcart", tokenAuth, sessionCheck, postCart);
+router.get("/buyer/getcart", tokenAuth, sessionCheck, getCart)
+
 // router.get("/buyer/gettransactions", getTransactions);
 // router.post("/buyer/postrequest", postRequest);
 
