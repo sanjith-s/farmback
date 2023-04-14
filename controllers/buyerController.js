@@ -187,6 +187,17 @@ const loadProducts = async (req, res) => {
   }
 };
 
+const fetchPrices = async (req, res) => {
+  try {
+    let data = await Transaction.find({}).select({_id: 0, time: 1, amount: 2});
+    console.log(data);
+
+    res.status(201).json({ priceHistory: data });
+  } catch {
+    res.status(404).json({ message: "Error in connection" });
+  }
+};
+
 module.exports = {
   getMarkets,
   getProducts,
@@ -196,5 +207,6 @@ module.exports = {
   loadNotifications,
   loadOrders,
   loadProducts,
-  loadRequests
+  loadRequests,
+  fetchPrices,
 };

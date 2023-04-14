@@ -28,6 +28,10 @@ const transaction= new Schema ({
     bankName:{
         type:String,
         required:true
+    },
+    time: {
+        type:Date,
+        required:true
     }
 }, {timestamps: true});
 const Transaction = mongoose.model('transactions', transaction);
