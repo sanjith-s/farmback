@@ -14,7 +14,7 @@ const { ml_model_web3 } = require("../ml_model/web_scrapping/test3");
 const { ml_model_web4 } = require("../ml_model/web_scrapping/test4");
 const { postQuery, getQuery, deleteQuery, updateQuery, againPostQuery,
     postMeet, getSpecificQuery, getMeet, acceptQuery, acceptNewScheduleMeet,
-    notAcceptNewScheduleMeet } = require("../controllers/farmerControllers");
+    notAcceptNewScheduleMeet,getNGO } = require("../controllers/farmerControllers");
 const { getQueries, getQueriesN10, responseQuery, getMeets, getMeetsN10, acceptMeetByNGO, changeOfTime } = require("../controllers/ngoControllers");
 const { postReview } = require("../controllers/reviewController");
 const { token } = require("morgan");
@@ -42,6 +42,8 @@ router.post("/getotp", generateOTP, createToken);
 router.post("/verifyotp", verifyOTP);
 router.post("/resetpass", resetPassword, sessionDelete, resetDone);
 //N Pages
+
+router.get("/getNGO", tokenAuth, sessionCheck,getNGO );
 
 //Queries
 router.post("/postquery", tokenAuth, sessionCheck, validateFarmerQuery, postQuery);
