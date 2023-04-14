@@ -73,6 +73,12 @@ const credentialsSchema = new Schema({
 
     doc2:{
         type:String,
+    },
+    latitude:{
+        type:Number,
+    },
+    longitude:{
+        type:Number,
     }
 }, {timestamps:true});
 

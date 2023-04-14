@@ -71,6 +71,7 @@ const profile = async (req,res) => {
     let email = res.locals.details;
     try{
         const profile = await Users.find({email:email},{__v:0,password:0,createdAt:0,updatedAt:0});
+        console.log(profile);
         res.status(200).json({message: profile[0]});
     }
     catch{

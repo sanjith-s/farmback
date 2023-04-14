@@ -8,6 +8,7 @@ const Users = require("../models/credentials");
 const Orders = require("../models/orders");
 const Notifications = require("../models/notifications");
 const productRequest = require('../models/productRequest');
+const Cart = require("../models/cart");
 
 require("dotenv").config();
 
@@ -139,6 +140,39 @@ const loadRequests = async (req,res,next) =>{
   }
 }
 
+const postCart = async(req, res) =>  {
+  let email = res.locals.details;
+  try {
+    const user = await Users.findOne({email: email});
+    const query = new Cart({
+      email: email,
+      buyerName: user.name,
+      phoneNumber: user.phoneno,
+      address: {
+        addrline1:user.addline1,
+        addrline2:user.addline2
+      },
+      items: req.body.cartItems
+    });
+
+    await query.save();
+  } catch {
+    res.status(404).json({message: "Error in connection"});
+  }
+}
+
+const getCart = async(req, res) => {
+  let email = res.locals.details;
+  console.log(email)
+  try{
+      const data = await Cart.findOne({email: email});
+      console.log(data);
+      res.status(201).json({ message: data });
+  }catch{
+    res.status(404).json({ message: "Error in connection" });
+  }
+}
+
 const loadProducts = async (req, res) => {
   try {
     let productNames = await sellerProduct.distinct("productName");
@@ -208,5 +242,7 @@ module.exports = {
   loadOrders,
   loadProducts,
   loadRequests,
+  postCart,
+  getCart,
   fetchPrices,
 };

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const cart= new Schema ({
-    name:{
+    buyerName:{
         type: String,
         required: true
     },
@@ -24,4 +24,4 @@ const cart= new Schema ({
     
 }, {timestamps:true});
 const Cart = mongoose.model('carts', cart);
-module.exports=Cart;
+module.exports = Cart;
