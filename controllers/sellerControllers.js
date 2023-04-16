@@ -60,6 +60,7 @@ const postSellerProducts = async (req, res) => {
         const profile = await Users.findOne({email: email});
         console.log(profile.name);
         console.log(profile.email);
+        console.log(req.body.filename);
         const query = new sellerProduct({
             productName: req.body.productName,
             price: req.body.price,
