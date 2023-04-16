@@ -115,7 +115,7 @@ router.get("/getFiles", getFiles);
 
 //Payments
 router.post("/createPayment", makePayment);
-
+router.post("/webhook", webhookHandler);
 
 module.exports = router;
 

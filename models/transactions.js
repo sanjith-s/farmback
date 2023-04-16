@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const transaction= new Schema ({
     IFSC:{
         type:String,
-        required:true
+        // required:true
     },
     transactionId:{
         type:String,
@@ -23,11 +23,11 @@ const transaction= new Schema ({
     },
     recvName:{
         type:String,
-        required:true
+        // required:true
     },
     bankName:{
         type:String,
-        required:true
+        // required:true
     },
     time: {
         type:Date,

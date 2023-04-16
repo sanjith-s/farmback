@@ -96,8 +96,9 @@ const getPastSales = async (req, res) => {
 }
 
 const getOrders = async(req, res) => {
+    let email = res.locals.details;
     try{
-        const data = await Order.find({});
+        const data = await Order.find({email: email}).limit(1).sort({createdAt: -1});
         res.status(201).json({ message: data});
     }catch{
         res.status(404).json({ message: "Error in get orders"})
