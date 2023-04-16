@@ -54,20 +54,24 @@ const loadRequestsM0 = async (req, res, next) => {
 }
 
 const postSellerProducts = async (req, res) => {
-    console.log(req.body);
+    let email = res.locals.details;
+    console.log("Post seller : ", email);
     try {
-        console.log()
+        const profile = await Users.findOne({email: email});
+        console.log(profile.name);
+        console.log(profile.email);
         const query = new sellerProduct({
             productName: req.body.productName,
             price: req.body.price,
             quantity: req.body.quantity,
             type: req.body.type,
             rating: req.body.rating,
-            filename: "http://localhost:5000/files/" + req.body.filename
+            filename: "http://localhost:5000/files/" + req.body.filename,
+            sellerName: profile.name + req.body.sellerName,
+            sellerEmail: profile.email + req.body.sellerEmail
         });
 
-        console.log(req);
-
+        // console.log(query);
         await query.save();
         console.log("After Saving Query related to Seller Product");
         res.status(201).json({ message: "Seller Product Added" });

@@ -35,14 +35,14 @@ const makePayment = async (req,res,next) =>{
               quantity: item.quantity,
             }
           }),
+          // customer_email:
           success_url: `${process.env.CLIENT_BASE_LOCAL}/payments/success`,
           cancel_url: `${process.env.CLIENT_BASE_LOCAL}/payments/cancel`,
-          customer_details: {
+          metadata: {
             email: email,
             name: profile.name,
             phone: profile.phoneno
-          },
-          metadata: {cusEmail: email},
+          }
         })
         res.json({ url: session.url })
       } catch (e) {
@@ -57,12 +57,14 @@ const endpointSecret = 'whsec_wAvldwHWDP2ns7fKmkrSauOXpeqzcdDj';
 
 const saveOrder = async(session) => {
   console.log(session);
+  console.log(session);
   const query = new Transaction({
     transactionId: session.id,
     paymentMode: session.payment_method_types[0],
     amount: session.amount_total,
     senderName: session.customer_details.name,
-    time: new Date(session.created)
+    time: session.created,
+    // recvName: session.
   })
 
   await query.save();
