@@ -63,10 +63,6 @@ const credentialsSchema = new Schema({
         required: true
     },
 
-    filename:{
-        type:String,
-    },
-
     doc1:{
         type:String,
     },
@@ -74,9 +70,11 @@ const credentialsSchema = new Schema({
     doc2:{
         type:String,
     },
+
     latitude:{
         type:Number,
     },
+    
     longitude:{
         type:Number,
     }
