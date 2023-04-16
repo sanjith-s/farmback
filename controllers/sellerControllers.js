@@ -4,6 +4,7 @@ const Sale = require('../models/sale');
 const Product = require('../models/products');
 const Request = require('../models/productRequest')
 const sellerProduct = require('../models/sellerProducts');
+const Order = require('../models/orders');
 
 const getSales = async (req, res) => {
     try {
@@ -76,6 +77,15 @@ const postSellerProducts = async (req, res) => {
     }
 }
 
+const getSellerProducts = async(req, res) => {
+    let email = res.locals.details;
+    try{
+        const data = await sellerProduct
+    }catch{
+
+    }
+}
+
 const getPastSales = async (req, res) => {
     try {
         const data = await pastsales.find({});
@@ -85,10 +95,20 @@ const getPastSales = async (req, res) => {
     }
 }
 
+const getOrders = async(req, res) => {
+    try{
+        const data = await Order.find({});
+        res.status(201).json({ message: data});
+    }catch{
+        res.status(404).json({ message: "Error in get orders"})
+    }
+}
+
 module.exports = {
     getSales,
     loadRequests,
     loadRequestsM0,
     postSellerProducts,
     getPastSales,
+    getOrders
 }

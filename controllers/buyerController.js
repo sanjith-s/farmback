@@ -9,6 +9,7 @@ const Orders = require("../models/orders");
 const Notifications = require("../models/notifications");
 const productRequest = require('../models/productRequest');
 const Cart = require("../models/cart");
+const Order = require("../models/orders");
 
 require("dotenv").config();
 
@@ -166,7 +167,7 @@ const getCart = async(req, res) => {
   console.log(email)
   try{
       const data = await Cart.findOne({email: email});
-      console.log(data);
+      // console.log(data);
       res.status(201).json({ message: data });
   }catch{
     res.status(404).json({ message: "Error in connection" });
@@ -232,6 +233,35 @@ const fetchPrices = async (req, res) => {
   }
 };
 
+const postOrders = async (req, res) => {
+  let email = res.locals.details;
+  console.log(email);
+  try{
+      const query = new Order({
+        email: email,
+        items: req.body.items
+      });
+
+      await query.save();
+      console.log("saved successfully");
+  } catch {
+    res.status(404).json({ message: "Error in connection" });
+  }
+}
+
+const deleteCart = async(req, res) => {
+  let email = res.locals.details;
+  console.log("Entering Delete");
+  try{
+    console.log("into delete");
+    const det = await Cart.findOneAndDelete({email:email});
+    console.log("deleted successfully");
+    res.status(201).json({message: "Deleted Successfully"});
+  } catch {
+    res.status(404).json({message: "Error in connection"});
+  }
+}
+
 module.exports = {
   getMarkets,
   getProducts,
@@ -245,4 +275,6 @@ module.exports = {
   postCart,
   getCart,
   fetchPrices,
+  postOrders,
+  deleteCart
 };
