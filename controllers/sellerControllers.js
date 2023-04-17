@@ -8,7 +8,7 @@ const Order = require('../models/orders');
 
 const getSales = async (req, res) => {
     try {
-        const data = await Sale.find();
+        const data = await Sale.find().sort({updatedAt: -1});
         res.status(201).json({ message: data });
     } catch {
         res.status(404).json({ message: "Error in connection" });
@@ -32,7 +32,7 @@ const loadRequests = async (req, res, next) => {
     console.log(email,3);
     try {
         // const user = await Users.find({ email: email });
-        const data = await Request.find({ uid: email });
+        const data = await Request.find({ uid: email }).sort({updatedAt: -1});
         console.log(data);
         res.status(200).json({ message: data });
     }
@@ -82,18 +82,18 @@ const postSellerProducts = async (req, res) => {
     }
 }
 
-const getSellerProducts = async(req, res) => {
-    let email = res.locals.details;
-    try{
-        const data = await sellerProduct
-    }catch{
+// const getSellerProducts = async(req, res) => {
+//     let email = res.locals.details;
+//     try{
+//         const data = await sellerProduct
+//     }catch{
 
-    }
-}
+//     }
+// }
 
 const getPastSales = async (req, res) => {
     try {
-        const data = await pastsales.find({});
+        const data = await pastsales.find({}).sort({updatedAt: -1});
         res.status(201).json({ message: data });
     } catch {
         res.status(404).json({ message: "Error bruh" });
