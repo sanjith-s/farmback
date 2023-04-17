@@ -103,7 +103,7 @@ router.get("/seller/pastsales", tokenAuth, sessionCheck, getPastSales);
 // OVER - M10, M15, M17, M18, M6, 
 
 //Review Route
-router.post("/review", tokenAuth, sessionCheck, postReview);
+router.post("/review", postReview);
 
 //File handling
 router.post("/upload", uploadFiles);
