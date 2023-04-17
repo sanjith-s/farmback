@@ -189,6 +189,16 @@ const getNGO = async (req,res) => {
     }
 }
 
+const getMarket = async (req,res) => {
+    try{
+        const data = await Users.find({typeOfAcc:"Retailer"});
+        res.status(201).json({message: data});
+    }
+    catch{
+        res.status(404).json({message: "Error in connection"});
+    }
+}
+
 module.exports={
     postQuery,
     getQuery,
@@ -201,5 +211,6 @@ module.exports={
     acceptQuery,
     acceptNewScheduleMeet,
     notAcceptNewScheduleMeet,
-    getNGO
+    getNGO,
+    getMarket
 }
