@@ -6,7 +6,7 @@ const { validateUserProfile } = require("../validations/userValidation");
 const { validateFarmerQuery, validateFarmerMeet } = require("../validations/farmerValidation");
 const { tokenAuth } = require('../middlewares/tokenAuth');
 const { createToken, sessionCheck, sessionDelete, logoutAll } = require("../controllers/user");
-const { getMarkets, getProducts, getDeals, getTransactions, postRequest, loadNotifications, loadOrders, loadProducts, postCart, getCart, fetchPrices } = require("../controllers/buyerController");
+const { getMarkets, getProducts, getDeals, getTransactions, postRequest, loadNotifications, loadOrders, loadProducts, postCart, getCart, fetchPrices, postOrders, deleteCart } = require("../controllers/buyerController");
 const { ml_model_crop } = require("../ml_model/crop_recommendation/test");
 const { ml_model_web1 } = require("../ml_model/web_scrapping/test1");
 const { ml_model_web2 } = require("../ml_model/web_scrapping/test2");
@@ -18,7 +18,7 @@ const { postQuery, getQuery, deleteQuery, updateQuery, againPostQuery,
 const { getQueries, getQueriesN10, responseQuery, getMeets, getMeetsN10, acceptMeetByNGO, changeOfTime } = require("../controllers/ngoControllers");
 const { postReview } = require("../controllers/reviewController");
 const { token } = require("morgan");
-const { getSales, postSellerProducts, getPastSales, loadRequests, loadRequestsM0 } = require('../controllers/sellerControllers');
+const { getSales, postSellerProducts, getPastSales, loadRequests, loadRequestsM0, getOrders } = require('../controllers/sellerControllers');
 // const { getSales } = require('../controllers/sellerControllers');
 const { uploadFiles, getListFiles, download } = require('../controllers/upload');
 const { uploadFile, getFiles } = require('../controllers/trialImage');
@@ -80,15 +80,17 @@ router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
 router.post("/buyer/loadproducts", tokenAuth, sessionCheck, loadProducts);
 router.post("/buyer/postcart", tokenAuth, sessionCheck, postCart);
 router.get("/buyer/getcart", tokenAuth, sessionCheck, getCart)
-
+router.post("/buyer/postOrder", tokenAuth, sessionCheck, postOrders)
 router.get("/fetchprices", tokenAuth, sessionCheck, fetchPrices);
-
+router.delete("/buyer/deletecart", tokenAuth, sessionCheck, deleteCart);
 // router.get("/buyer/gettransactions", getTransactions);
 // router.post("/buyer/postrequest", postRequest);
 
 // Seller Routes
 router.get("/seller/getsales", tokenAuth, sessionCheck, getSales);
+router.get("/seller/getOrders", tokenAuth, sessionCheck, getOrders)
 router.post("/seller/postsellerproducts", tokenAuth, sessionCheck, postSellerProducts);
+router.get("/seller/getsellerproducts", tokenAuth, sessionCheck);
 router.get("/loadnotifications", tokenAuth, sessionCheck, loadNotifications);
 router.get("/loadorders", tokenAuth, sessionCheck, loadOrders);
 router.get("/loadrequests", tokenAuth, sessionCheck, loadRequests);
@@ -113,7 +115,7 @@ router.get("/getFiles", getFiles);
 
 //Payments
 router.post("/createPayment", makePayment);
-
+router.post("/webhook", webhookHandler);
 
 module.exports = router;
 

@@ -4,6 +4,7 @@ const Sale = require('../models/sale');
 const Product = require('../models/products');
 const Request = require('../models/productRequest')
 const sellerProduct = require('../models/sellerProducts');
+const Order = require('../models/orders');
 
 const getSales = async (req, res) => {
     try {
@@ -53,26 +54,40 @@ const loadRequestsM0 = async (req, res, next) => {
 }
 
 const postSellerProducts = async (req, res) => {
-    console.log(req.body);
+    let email = res.locals.details;
+    console.log("Post seller : ", email);
     try {
-        console.log()
+        const profile = await Users.findOne({email: email});
+        console.log(profile.name);
+        console.log(profile.email);
+        console.log(req.body.filename);
         const query = new sellerProduct({
             productName: req.body.productName,
             price: req.body.price,
             quantity: req.body.quantity,
             type: req.body.type,
             rating: req.body.rating,
-            filename: "http://localhost:5000/files/" + req.body.filename
+            filename: "http://localhost:5000/files/" + req.body.filename,
+            sellerName: profile.name + req.body.sellerName,
+            sellerEmail: profile.email + req.body.sellerEmail
         });
 
-        console.log(req);
-
+        // console.log(query);
         await query.save();
         console.log("After Saving Query related to Seller Product");
         res.status(201).json({ message: "Seller Product Added" });
     } catch {
         console.log(req)
         res.status(404).json({ message: "Error in connection" });
+    }
+}
+
+const getSellerProducts = async(req, res) => {
+    let email = res.locals.details;
+    try{
+        const data = await sellerProduct
+    }catch{
+
     }
 }
 
@@ -85,10 +100,21 @@ const getPastSales = async (req, res) => {
     }
 }
 
+const getOrders = async(req, res) => {
+    let email = res.locals.details;
+    try{
+        const data = await Order.find({email: email}).limit(1).sort({createdAt: -1});
+        res.status(201).json({ message: data});
+    }catch{
+        res.status(404).json({ message: "Error in get orders"})
+    }
+}
+
 module.exports = {
     getSales,
     loadRequests,
     loadRequestsM0,
     postSellerProducts,
     getPastSales,
+    getOrders
 }

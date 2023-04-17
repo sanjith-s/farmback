@@ -27,9 +27,6 @@ const farmerQuery = new Schema({
     oldQuery:{
         type:Array,
     },
-    filename:{
-        type:String,
-    }
 }, {timestamps:true});
 
 const FarmerQuery=moongoose.model('farmerquery', farmerQuery);

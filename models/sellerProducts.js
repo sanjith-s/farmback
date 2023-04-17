@@ -24,6 +24,14 @@ const product= new Schema ({
     filename:{
         type:String,
         required: true
+    },
+    sellerName: {
+        type:String,
+        required: true
+    },
+    sellerEmail: {
+        type:String,
+        required: true
     }
 }, {timestamps: true});
 
