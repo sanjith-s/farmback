@@ -121,7 +121,7 @@ const getMeet = async (req,res) => {
     try{
         const email=res.locals.details;
         const profile = await Users.find({email:email});
-        const data=await FarmerMeet.find({farmerid:profile[0]._id});
+        const data=await FarmerMeet.find({farmerid:profile[0]._id}).sort({updatedAt: -1});
         res.status(201).json({message: data});
     }
     catch{
