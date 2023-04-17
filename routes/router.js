@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { login, signup, testJWT, logout, profile, generateOTP, verifyOTP, resetPassword, resetDone } = require("../controllers/controller");
+const { login, signup, testJWT, logout, profile, generateOTP, verifyOTP, resetPassword, resetDone,checkToken } = require("../controllers/controller");
 const { validateUserProfile } = require("../validations/userValidation");
 const { validateFarmerQuery, validateFarmerMeet } = require("../validations/farmerValidation");
 const { tokenAuth } = require('../middlewares/tokenAuth');
@@ -27,6 +27,7 @@ const { webhookHandler, makePayment } = require("../controllers/paymentControlle
 
 
 router.post("/login", login, createToken);
+router.get("/tokenCheck",tokenAuth,sessionCheck,checkToken);
 router.post("/signup", validateUserProfile, signup);
 router.get("/testJWT", tokenAuth, sessionCheck, testJWT);
 router.get("/logout", tokenAuth, sessionDelete, logout);
