@@ -46,7 +46,7 @@ router.post("/verifyotp", verifyOTP);
 router.post("/resetpass", resetPassword, sessionDelete, resetDone);
 //N Pages
 
-router.get("/getNGO", tokenAuth, sessionCheck, getNGO);
+router.get("/getNGO", getNGO);
 
 //Queries
 router.post("/postquery", tokenAuth, sessionCheck, validateFarmerQuery, postQuery);
