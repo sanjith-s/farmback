@@ -4,7 +4,7 @@ const Users = require("../models/credentials");
 
 const getQueries = async (req, res) => {
     try {
-        const data = await FarmerQuery.find({ response: "" });
+        const data = await FarmerQuery.find({ response: "" }).sort({updatedAt: -1});
         return res.status(201).json({ message: data });
     }
     catch
@@ -45,7 +45,7 @@ const responseQuery = async (req, res) => {
 
 const getMeets = async (req, res) => {
     try {
-        const data = await FarmerMeet.find({ status: "Waiting for NGO" });
+        const data = await FarmerMeet.find({ status: "Waiting for NGO" }).sort({updatedAt: -1});
         return res.status(201).json({ message: data });
     }
     catch

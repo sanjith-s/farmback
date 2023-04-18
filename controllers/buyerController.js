@@ -33,7 +33,7 @@ catch{
 const getProducts = async (req, res) => {
   try {
     const marketID = req.params.marketID;
-    const products = await Product.find({ marketID: marketID });
+    const products = await Product.find({ marketID: marketID }).sort({updatedAt: -1});
     res.status(201).json({ message: products });
   } catch {
     res.status(500).json({ message: err.message });
@@ -47,7 +47,7 @@ const buyProducts = async (req, res) => {
 
 const getDeals = async (req, res) => {
   try {
-    const deals = await Deal.find({});
+    const deals = await Deal.find({}).sort({updatedAt: -1});
     res.status(201).json({ message: deals });
     console.log("Got Deals");
   } catch {
@@ -57,7 +57,7 @@ const getDeals = async (req, res) => {
 
 const getTransactions = async (req, res) => {
   try {
-    const transactions = await Transaction.find({});
+    const transactions = await Transaction.find({}).sort({updatedAt: -1});
     res.status(201).json({ message: transactions });
     console.log("Got Transactions");
   } catch {
@@ -114,7 +114,7 @@ const loadNotifications = async (req, res, next) => {
   let email = res.locals.details;
   try {
     const user = await Users.find({ email: email });
-    const data = await Notifications.find({ userid: user[0]._id });
+    const data = await Notifications.find({ userid: user[0]._id }).sort({updatedAt: -1});
     res.status(200).json({ message: data });
   } catch {
     res.status(404).json({ message: "Error in connection" });
@@ -125,7 +125,7 @@ const loadOrders = async (req, res, next) => {
   let email = res.locals.details;
   try {
     const user = await Users.find({ email: email });
-    const data = await Orders.findAll({ userid: user[0]._id });
+    const data = await Orders.findAll({ userid: user[0]._id }).sort({updatedAt: -1});
     res.status(200).json({ message: data });
   } catch {
     res.status(404).json({ message: "Error in connection" });
@@ -147,7 +147,7 @@ const loadRequests = async (req,res,next) =>{
   let email = res.locals.details;
   try {
       const user = await Users.find({email:email});
-      const data=await Request.findAll({uid:user[0]._id});
+      const data=await Request.findAll({uid:user[0]._id}).sort({updatedAt: -1});
       res.status(200).json({message: data});
   }
   catch{
@@ -190,7 +190,7 @@ const getCart = async(req, res) => {
 
 const loadProducts = async (req, res) => {
   try {
-    let productNames = await sellerProduct.distinct("productName");
+    let productNames = await sellerProduct.distinct("productName").sort({updatedAt: -1});
     console.log(productNames);
     filterProduct = [];
 

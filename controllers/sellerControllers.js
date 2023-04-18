@@ -9,7 +9,7 @@ const Transit = require('../models/transit');
 
 const getSales = async (req, res) => {
     try {
-        const data = await Sale.find();
+        const data = await Sale.find().sort({updatedAt: -1});
         res.status(201).json({ message: data });
     } catch {
         res.status(404).json({ message: "Error in connection" });
@@ -83,18 +83,18 @@ const postSellerProducts = async (req, res) => {
     }
 }
 
-const getSellerProducts = async(req, res) => {
-    let email = res.locals.details;
-    try{
-        const data = await sellerProduct
-    }catch{
+// const getSellerProducts = async(req, res) => {
+//     let email = res.locals.details;
+//     try{
+//         const data = await sellerProduct
+//     }catch{
 
-    }
-}
+//     }
+// }
 
 const getPastSales = async (req, res) => {
     try {
-        const data = await pastsales.find({});
+        const data = await pastsales.find({}).sort({updatedAt: -1});
         res.status(201).json({ message: data });
     } catch {
         res.status(404).json({ message: "Error bruh" });

@@ -166,6 +166,14 @@ const resetDone = async (req,res) => {
     return res.status(200).json({ message: 'Password Save Successful' });
 }
 
+const checkToken = async (req,res) => {
+    try {
+        res.status(200).json({ message: "Success Token" })
+    } catch(err) {
+        res.status(500).json({ message: err.message })
+    }
+}
+
 
 module.exports = {
     login,
@@ -177,5 +185,6 @@ module.exports = {
     verifyOTP,
     resetPassword,
     resetDone,
+    checkToken,
     getUser
 } 

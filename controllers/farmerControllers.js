@@ -27,7 +27,7 @@ const getQuery = async (req,res) =>{
     try{
         const email=res.locals.details;
         const profile = await Users.find({email:email});
-        const data=await FarmerQuery.find({farmerid:profile[0]._id});
+        const data=await FarmerQuery.find({farmerid:profile[0]._id}).sort({updatedAt: -1});
         res.status(201).json({message: data});
     }
     catch{
@@ -121,7 +121,7 @@ const getMeet = async (req,res) => {
     try{
         const email=res.locals.details;
         const profile = await Users.find({email:email});
-        const data=await FarmerMeet.find({farmerid:profile[0]._id});
+        const data=await FarmerMeet.find({farmerid:profile[0]._id}).sort({updatedAt: -1});
         res.status(201).json({message: data});
     }
     catch{
@@ -181,7 +181,17 @@ const notAcceptNewScheduleMeet = async (req,res) => {
 
 const getNGO = async (req,res) => {
     try{
-        const data = await Users.find({typeOfAcc:"NGO"});
+        const data = await Users.find({typeOfAcc:"NGO"}).sort({updatedAt: -1});
+        res.status(201).json({message: data});
+    }
+    catch{
+        res.status(404).json({message: "Error in connection"});
+    }
+}
+
+const getMarket = async (req,res) => {
+    try{
+        const data = await Users.find({typeOfAcc:"Retailer"}).sort({updatedAt: -1});
         res.status(201).json({message: data});
     }
     catch{
@@ -201,5 +211,6 @@ module.exports={
     acceptQuery,
     acceptNewScheduleMeet,
     notAcceptNewScheduleMeet,
-    getNGO
+    getNGO,
+    getMarket
 }
