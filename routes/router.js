@@ -7,7 +7,7 @@ const { validateFarmerQuery, validateFarmerMeet } = require("../validations/farm
 const { tokenAuth } = require('../middlewares/tokenAuth');
 const { createToken, sessionCheck, sessionDelete, logoutAll } = require("../controllers/user");
 const { getMarkets, getProducts, getDeals, getTransactions, postRequest, loadNotifications, loadOrders, loadProducts,
-     postCart, getCart, fetchPrices, postOrders, deleteCart, postReqOrder, delRequest } = require("../controllers/buyerController");
+     postCart, getCart, fetchPrices, postOrders, deleteCart, postReqOrder, delRequest, getReqOrder } = require("../controllers/buyerController");
 const { ml_model_crop } = require("../ml_model/crop_recommendation/test");
 const { ml_model_web1 } = require("../ml_model/web_scrapping/test1");
 const { ml_model_web2 } = require("../ml_model/web_scrapping/test2");
@@ -94,6 +94,7 @@ router.post("/transit", tokenAuth, sessionCheck, postTransit);
 router.get("/gettransit", tokenAuth, sessionCheck, getTransit);
 router.post("/delRequest", tokenAuth, sessionCheck, delRequest);
 router.post("/postreqorders", tokenAuth, sessionCheck, postReqOrder)
+router.get("/getreqorders", tokenAuth, sessionCheck, getReqOrder)
 // Seller Routes
 router.get("/seller/getsales", tokenAuth, sessionCheck, getSales);
 router.get("/seller/getOrders", tokenAuth, sessionCheck, getOrders)

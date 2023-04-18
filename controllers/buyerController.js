@@ -263,6 +263,19 @@ const postReqOrder = async(req, res) => {
   }
 }
 
+const getReqOrder = async(req, res) => {
+  
+  try{
+    const resut = await ReqOrder.find({});
+    console.log("got PostReqOrders");
+    res.status(201).json({ message: resut });
+  } catch{
+    console.log(req)
+    res.status(404).json({ message: "Error in connection" });
+  }
+
+}
+
 const delRequest = async(req, res) => {
   let senderEmail = res.locals.details;
   let recieverEmail = req.body.recieverEmail;
@@ -293,5 +306,6 @@ module.exports = {
   postOrders,
   deleteCart,
   postReqOrder,
-  delRequest
+  delRequest,
+  getReqOrder
 };
