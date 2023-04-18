@@ -82,7 +82,7 @@ router.get("/buyer/gettransactions", tokenAuth, sessionCheck, getTransactions);
 router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
 router.get("/buyer/gettransactions", tokenAuth, sessionCheck, getTransactions);
 router.post("/buyer/postrequest", tokenAuth, sessionCheck, postRequest);
-router.post("/buyer/loadproducts", tokenAuth, sessionCheck, loadProducts);
+router.get("/buyer/loadproducts", tokenAuth, sessionCheck, loadProducts);
 router.post("/buyer/postcart", tokenAuth, sessionCheck, postCart);
 router.get("/buyer/getcart", tokenAuth, sessionCheck, getCart)
 router.post("/buyer/postOrder", tokenAuth, sessionCheck, postOrders)

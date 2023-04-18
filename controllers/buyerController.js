@@ -190,44 +190,6 @@ const getCart = async(req, res) => {
 
 const loadProducts = async (req, res) => {
   try {
-    let productNames = await sellerProduct.distinct("productName").sort({updatedAt: -1});
-    console.log(productNames);
-    filterProduct = [];
-
-    filterValue = req.body.productName;
-    if (filterValue.length == 0) {
-      filterProduct = productNames;
-    } else {
-      filterProduct.push(filterValue);
-    }
-
-    // let result = await sellerProduct.aggregate([
-    //   { $match: { productName: { $in: filterProduct } } },
-    //   {
-    //     $group: {
-    //       _id: "$productName",
-    //       records: {
-    //         $push: "$$ROOT",
-    //       },
-    //     },
-    //   },
-    //   {
-    //     $unwind: "$records",
-    //   },
-    //   {
-    //     $sort: {
-    //       "records.price": 1,
-    //     },
-    //   },
-    //   {
-    //     $group: {
-    //       _id: "$_id",
-    //       records: {
-    //         $push: "$records",
-    //       },
-    //     },
-    //   },
-    // ]);
     let result = await sellerProduct.find({});
     console.log(result);
     res.status(201).json({ message: result });
