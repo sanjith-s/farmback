@@ -79,6 +79,18 @@ const profile = async (req,res) => {
     }
 }
 
+const getUser = async (req,res) => {
+    let email = req.body.email;
+    try{
+        const profile = await Users.find({email:email},{__v:0,password:0,createdAt:0,updatedAt:0});
+        console.log(profile);
+        res.status(200).json({message: profile[0]});
+    }
+    catch{
+        res.status(500).json({ message: err.message })
+    }
+}
+
 const generateOTP = async(req,res,next) => {
     let email = req.body.email;
     try {
@@ -173,5 +185,6 @@ module.exports = {
     verifyOTP,
     resetPassword,
     resetDone,
-    checkToken
+    checkToken,
+    getUser
 } 

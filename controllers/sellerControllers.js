@@ -2,9 +2,10 @@ const pastsales = require('../models/pastSales');
 const Users = require("../models/credentials");
 const Sale = require('../models/sale');
 const Product = require('../models/products');
-const Request = require('../models/productRequest')
+const Request = require('../models/requests')
 const sellerProduct = require('../models/sellerProducts');
 const Order = require('../models/orders');
+const Transit = require('../models/transit');
 
 const getSales = async (req, res) => {
     try {
@@ -32,7 +33,7 @@ const loadRequests = async (req, res, next) => {
     console.log(email,3);
     try {
         // const user = await Users.find({ email: email });
-        const data = await Request.find({ uid: email }).sort({updatedAt: -1});
+        const data = await Request.find({});
         console.log(data);
         res.status(200).json({ message: data });
     }
@@ -110,11 +111,57 @@ const getOrders = async(req, res) => {
     }
 }
 
+const postTransit = async(req, res) => {
+    let email = res.locals.details;
+    console.log("Post Transit : ", email);
+    try {
+        const profile = await Users.findOne({email: email});
+        console.log(profile.name);
+        console.log(profile.email);
+        console.log(req.body.filename);
+        const query = new Transit({
+            name: req.body.name,
+            price: req.body.price,
+            quantity: req.body.quantity,
+            specificType: req.body.specificType,
+            location: req.body.location,
+            senderEmail: req.body.senderEmail,
+            senderName: req.body.senderName,
+            senderPhoneNo: req.body.senderPhoneNo,
+            negPrice: req.body.negPrice,
+            negQuantity: req.body.negQuantity,
+            recieverName: profile.name,
+            recieverEmail: profile.email
+        });
+
+        // console.log(query);
+        await query.save();
+        console.log("After Saving Query related to Seller Product");
+        res.status(201).json({ message: "Seller Product Added" });
+    }catch{
+        console.log(req)
+        res.status(404).json({ message: "Error in connection" });
+    }
+}
+
+const getTransit = async(req, res) => {
+    let email = res.locals.details;
+    try{
+        const transit = await Transit.find({senderEmail: email});
+        console.log(transit[0]);
+        res.status(201).json({ message: transit[0] });
+    } catch {
+        res.status(404).json({ message: "Error bruh" });
+    }
+}
+
 module.exports = {
     getSales,
     loadRequests,
     loadRequestsM0,
     postSellerProducts,
     getPastSales,
-    getOrders
+    getOrders,
+    postTransit,
+    getTransit
 }
