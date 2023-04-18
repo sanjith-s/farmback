@@ -6,6 +6,7 @@ const postReview = async (req, res) => {
   try {
     let email = req.body.email;
     const profile = await Users.findOne({ email: email });
+    console.log(profile);
     const query = new Review({
       name: profile.name,
       email: req.body.email,
