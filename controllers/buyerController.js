@@ -10,16 +10,25 @@ const Notifications = require("../models/notifications");
 const productRequest = require('../models/productRequest');
 const Cart = require("../models/cart");
 const Order = require("../models/orders");
-
+const Request = require("../models/requests");
+const ReqOrder = require("../models/requestOrders");
+const Transit = require("../models/transit");
 require("dotenv").config();
 
 const getMarkets = async (req, res) => {
-  try {
-    const markets = await Market.find({});
-    res.status(201).json({ message: markets });
-  } catch {
-    res.status(500).json({ message: err.message });
-  }
+  try{
+    const data = await Users.find({typeOfAcc:"Retailer"});
+    res.status(201).json({message: data});
+}
+catch{
+    res.status(404).json({message: "Error in connection"});
+}
+  // try {
+  //   const markets = await Market.find({});
+  //   res.status(201).json({ message: markets });
+  // } catch {
+  //   res.status(500).json({ message: err.message });
+  // }
 };
 const getProducts = async (req, res) => {
   try {
@@ -57,37 +66,42 @@ const getTransactions = async (req, res) => {
 };
 
 const postRequest = async (req, res) => {
+    console.log(req);
+    const email = res.locals.details;
+    console.log(email);
   try {
-    // console.log(req);
-    const profile = await Users.findOne({ email: req.body.email });
-    const query = new indeProduct({
+    console.log(email);
+    const profile = await Users.findOne({ email: email });
+    const query = new Request({
       name: req.body.name,
       price: req.body.price,
       quantity: req.body.quantity,
       specificType: req.body.specificType,
       location: req.body.location,
-      userEmail: profile.email
+      senderEmail: profile.email,
+      senderName: profile.name,
+      senderPhoneNo: profile.phoneno
     });
 
     console.log("dONE");
 
-    const reqQuery = new productRequest({
-      uid: profile.email,
-      name: profile.name,
-      price: req.body.price,
-      phoneNumber: profile.phoneno,
-      itemName: req.body.name,
-      quantity: req.body.quantity,
-      address: {
-        addline1: profile.addline1,
-        addline2: profile.addline2
-      }
-    })
+    // const reqQuery = new productRequest({
+    //   uid: profile.email,
+    //   name: profile.name,
+    //   price: req.body.price,
+    //   phoneNumber: profile.phoneno,
+    //   itemName: req.body.name,
+    //   quantity: req.body.quantity,
+    //   address: {
+    //     addline1: profile.addline1,
+    //     addline2: profile.addline2
+    //   }
+    // })
 
     console.log("dONE 2");
 
     await query.save();
-    await reqQuery.save();
+    // await reqQuery.save();
 
     console.log("After Saving Query");
     res.status(201).json({ message: "Product Request added !!" });
@@ -262,6 +276,45 @@ const deleteCart = async(req, res) => {
   }
 }
 
+const postReqOrder = async(req, res) => {
+    try{
+        const query = new ReqOrder({
+          name: req.body.name,
+          price: req.body.price,
+          quantity: req.body.quantity,
+          specificType: req.body.specificType,
+          location: req.body.location,
+          senderEmail: req.body.senderEmail,
+          senderName: req.body.senderName,
+          senderPhoneNo: req.body.senderPhoneNo,
+          negPrice: req.body.negPrice,
+          negQuantity: req.body.negQuantity,
+          recieverName: req.body.recieverName,
+          recieverEmail: req.body.recieverEmail
+      });
+      await query.save();
+      console.log("Saved Query to PostReqOrders");
+      res.status(201).json({ message: "ReqOrders Added" });
+    } catch{
+      console.log(req)
+      res.status(404).json({ message: "Error in connection" });
+  }
+}
+
+const delRequest = async(req, res) => {
+  let senderEmail = res.locals.details;
+  let recieverEmail = req.body.recieverEmail;
+  
+  try{
+    await Request.findOneAndDelete({senderEmail: senderEmail});
+    console.log('Request Deleted');
+    await Transit.findOneAndDelete({recieverEmail: recieverEmail});
+    console.log('Transit Deleted');
+  } catch {
+    res.status(404).json({message: "Error in connection"});
+  }
+}
+
 module.exports = {
   getMarkets,
   getProducts,
@@ -276,5 +329,7 @@ module.exports = {
   getCart,
   fetchPrices,
   postOrders,
-  deleteCart
+  deleteCart,
+  postReqOrder,
+  delRequest
 };

@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const { login, signup, testJWT, logout, profile, generateOTP, verifyOTP, resetPassword, resetDone } = require("../controllers/controller");
+const { login, signup, testJWT, logout, profile, generateOTP, verifyOTP, resetPassword, resetDone, getUser } = require("../controllers/controller");
 const { validateUserProfile } = require("../validations/userValidation");
 const { validateFarmerQuery, validateFarmerMeet } = require("../validations/farmerValidation");
 const { tokenAuth } = require('../middlewares/tokenAuth');
 const { createToken, sessionCheck, sessionDelete, logoutAll } = require("../controllers/user");
-const { getMarkets, getProducts, getDeals, getTransactions, postRequest, loadNotifications, loadOrders, loadProducts, postCart, getCart, fetchPrices, postOrders, deleteCart } = require("../controllers/buyerController");
+const { getMarkets, getProducts, getDeals, getTransactions, postRequest, loadNotifications, loadOrders, loadProducts,
+     postCart, getCart, fetchPrices, postOrders, deleteCart, postReqOrder, delRequest } = require("../controllers/buyerController");
 const { ml_model_crop } = require("../ml_model/crop_recommendation/test");
 const { ml_model_web1 } = require("../ml_model/web_scrapping/test1");
 const { ml_model_web2 } = require("../ml_model/web_scrapping/test2");
@@ -18,7 +19,7 @@ const { postQuery, getQuery, deleteQuery, updateQuery, againPostQuery,
 const { getQueries, getQueriesN10, responseQuery, getMeets, getMeetsN10, acceptMeetByNGO, changeOfTime } = require("../controllers/ngoControllers");
 const { postReview } = require("../controllers/reviewController");
 const { token } = require("morgan");
-const { getSales, postSellerProducts, getPastSales, loadRequests, loadRequestsM0, getOrders } = require('../controllers/sellerControllers');
+const { getSales, postSellerProducts, getPastSales, loadRequests, loadRequestsM0, getOrders, postTransit,getTransit } = require('../controllers/sellerControllers');
 // const { getSales } = require('../controllers/sellerControllers');
 const { uploadFiles, getListFiles, download } = require('../controllers/upload');
 const { uploadFile, getFiles } = require('../controllers/trialImage');
@@ -38,6 +39,7 @@ router.get("/ml_model/webscrapping/rice_dal_price_chennai", ml_model_web4);
 router.post("/ml_model/crop_recomendation", ml_model_crop);
 router.post("/logoutAll", logoutAll);
 router.get("/profile", tokenAuth, sessionCheck, profile);
+router.post ("/getuser", tokenAuth, sessionCheck, getUser);
 router.post("/getotp", generateOTP, createToken);
 router.post("/verifyotp", verifyOTP);
 router.post("/resetpass", resetPassword, sessionDelete, resetDone);
@@ -85,7 +87,10 @@ router.get("/fetchprices", tokenAuth, sessionCheck, fetchPrices);
 router.delete("/buyer/deletecart", tokenAuth, sessionCheck, deleteCart);
 // router.get("/buyer/gettransactions", getTransactions);
 // router.post("/buyer/postrequest", postRequest);
-
+router.post("/transit", tokenAuth, sessionCheck, postTransit);
+router.get("/gettransit", tokenAuth, sessionCheck, getTransit);
+router.post("/delRequest", tokenAuth, sessionCheck, delRequest);
+router.post("/postreqorders", tokenAuth, sessionCheck, postReqOrder)
 // Seller Routes
 router.get("/seller/getsales", tokenAuth, sessionCheck, getSales);
 router.get("/seller/getOrders", tokenAuth, sessionCheck, getOrders)
