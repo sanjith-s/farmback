@@ -190,7 +190,7 @@ const getCart = async(req, res) => {
 
 const loadProducts = async (req, res) => {
   try {
-    let result = await sellerProduct.find({});
+      let result = await sellerProduct.find({});
     console.log(result);
     res.status(201).json({ message: result });
   } catch {
